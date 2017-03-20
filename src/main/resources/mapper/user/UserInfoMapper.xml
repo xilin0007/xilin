@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fxl.template.user.mapper.UserInfoMapper">
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="360"/><!--6min-->  
+	    <property name="timeToLiveSeconds" value="360"/><!--6min-->
+	</cache>
+
+	<resultMap id="BaseResultMap" type="com.fxl.template.user.entity.UserInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="INTEGER" />
+		<result column="province" property="province" jdbcType="INTEGER" />
+		<result column="city" property="city" jdbcType="INTEGER" />
+		<result column="user_img" property="userImg" jdbcType="VARCHAR" />
+		<result column="expected_date_of_confinement" property="expectedDateOfConfinement"
+			jdbcType="DATE" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="reg_time" property="regTime" jdbcType="TIMESTAMP" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="is_switch_push_msg" property="isSwitchPushMsg"
+			jdbcType="INTEGER" />
+		<result column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="gold" property="gold" jdbcType="INTEGER" />
+		<result column="pregnant_stage" property="pregnantStage"
+			jdbcType="INTEGER" />
+		<result column="pregnant_week" property="pregnantWeek"
+			jdbcType="INTEGER" />
+		<result column="sina_open_id" property="sinaOpenId" jdbcType="VARCHAR" />
+		<result column="qq_open_id" property="qqOpenId" jdbcType="VARCHAR" />
+		<result column="weixin_open_id" property="weixinOpenId"
+			jdbcType="VARCHAR" />
+		<result column="medical_num" property="medicalNum" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, mobile, email, nick_name, country, province, city, user_img,
+		expected_date_of_confinement,
+		status, reg_time, password, is_switch_push_msg, open_id, user_type, gold,
+		pregnant_stage,
+		pregnant_week, sina_open_id, qq_open_id, weixin_open_id, medical_num
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user_info
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from user_info
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.fxl.template.user.entity.UserInfo">
+		insert into user_info (id, mobile, email,
+		nick_name, country, province,
+		city, user_img, expected_date_of_confinement,
+		status, reg_time, password,
+		is_switch_push_msg, open_id, user_type,
+		gold, pregnant_stage, pregnant_week,
+		sina_open_id, qq_open_id, weixin_open_id,
+		medical_num)
+		values (#{id,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{nickName,jdbcType=VARCHAR}, #{country,jdbcType=INTEGER}, #{province,jdbcType=INTEGER},
+		#{city,jdbcType=INTEGER}, #{userImg,jdbcType=VARCHAR},
+		#{expectedDateOfConfinement,jdbcType=DATE},
+		#{status,jdbcType=INTEGER}, #{regTime,jdbcType=TIMESTAMP},
+		#{password,jdbcType=VARCHAR},
+		#{isSwitchPushMsg,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER},
+		#{gold,jdbcType=INTEGER}, #{pregnantStage,jdbcType=INTEGER},
+		#{pregnantWeek,jdbcType=INTEGER},
+		#{sinaOpenId,jdbcType=VARCHAR}, #{qqOpenId,jdbcType=VARCHAR}, #{weixinOpenId,jdbcType=VARCHAR},
+		#{medicalNum,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update" parameterType="com.fxl.template.user.entity.UserInfo">
+		update user_info
+		<set>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != null">
+				nick_name = #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null">
+				country = #{country,jdbcType=INTEGER},
+			</if>
+			<if test="province != null">
+				province = #{province,jdbcType=INTEGER},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=INTEGER},
+			</if>
+			<if test="userImg != null">
+				user_img = #{userImg,jdbcType=VARCHAR},
+			</if>
+			<if test="expectedDateOfConfinement != null">
+				expected_date_of_confinement =
+				#{expectedDateOfConfinement,jdbcType=DATE},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="regTime != null">
+				reg_time = #{regTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="isSwitchPushMsg != null">
+				is_switch_push_msg = #{isSwitchPushMsg,jdbcType=INTEGER},
+			</if>
+			<if test="openId != null">
+				open_id = #{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=INTEGER},
+			</if>
+			<if test="gold != null">
+				gold = #{gold,jdbcType=INTEGER},
+			</if>
+			<if test="pregnantStage != null">
+				pregnant_stage = #{pregnantStage,jdbcType=INTEGER},
+			</if>
+			<if test="pregnantWeek != null">
+				pregnant_week = #{pregnantWeek,jdbcType=INTEGER},
+			</if>
+			<if test="sinaOpenId != null">
+				sina_open_id = #{sinaOpenId,jdbcType=VARCHAR},
+			</if>
+			<if test="qqOpenId != null">
+				qq_open_id = #{qqOpenId,jdbcType=VARCHAR},
+			</if>
+			<if test="weixinOpenId != null">
+				weixin_open_id = #{weixinOpenId,jdbcType=VARCHAR},
+			</if>
+			<if test="medicalNum != null">
+				medical_num = #{medicalNum,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="findByPage" parameterType="com.fxl.frame.common.QVOCondition" resultMap="BaseResultMap">
+		select * from user_info where nick_name like CONCAT(#{nickName}, '%')
+	</select>
+	
+	<!-- 搜素用户昵称 -->
+	<select id="findByNickName" resultMap="BaseResultMap">
+		select id,nick_name from user_info where nick_name like CONCAT('%', #{nickName}, '%') limit #{size}
+	</select>
+	
+</mapper>

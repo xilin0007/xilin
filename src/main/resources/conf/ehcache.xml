@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" 
+	updateCheck="false"
+	name="ehcache_template">
+    <diskStore path="java.io.tmpdir/ehcache/template"/>
+    <!-- 默认缓存 -->
+    <defaultCache
+		   maxElementsInMemory="1000"
+		   maxElementsOnDisk="100000" 
+		   eternal="false"
+		   overflowToDisk="false"
+		   
+		   timeToIdleSeconds="120"
+		   timeToLiveSeconds="120"
+		   diskPersistent="false" 
+           diskSpoolBufferSizeMB="30" 
+           memoryStoreEvictionPolicy="LRU" 
+           diskExpiryThreadIntervalSeconds="120" 
+		   />
+	<!-- 邮件缓存  二小时过期 7200-->	   
+    <cache name="mailCache" 
+           maxElementsInMemory="100" 
+           maxElementsOnDisk="10000" 
+           eternal="false" 
+           overflowToDisk="true" 
+           
+           timeToIdleSeconds="0"
+		   timeToLiveSeconds="7200"
+           diskPersistent="true"
+           diskSpoolBufferSizeMB="30" 
+		   memoryStoreEvictionPolicy="FIFO" 
+		   diskExpiryThreadIntervalSeconds="120" 
+		   />
+		   
+	 <!-- 系统通用缓存，3小时不访问 缓存过期 -->
+	 <cache name="generalCache" 
+           maxElementsInMemory="500" 
+           maxElementsOnDisk="10000" 
+           eternal="false"
+		   overflowToDisk="true" 
+		   
+		   timeToIdleSeconds="10800"
+		   timeToLiveSeconds="0"
+		   diskPersistent="false"
+		   diskSpoolBufferSizeMB="30" 
+           memoryStoreEvictionPolicy="LRU" 
+           diskExpiryThreadIntervalSeconds="360" 
+           />
+    <!-- 
+    	 （1）FIFO：First In First Out，先进先出
+		 （2）LRU：Least Recently Used，最近最少使用
+                 （3）LFU：Least Frequently Used，最不经常使用
+      	  注意LRU和LFU的区别。LFU算法是根据在一段时间里数据项被使用的次数选择出最少使用的数据项，即根据使用次数的差异来决定。而LRU是根据使用时间的差异来决定的。
+    -->
+</ehcache>
