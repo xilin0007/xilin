@@ -6,7 +6,7 @@ import com.fxl.frame.base.BaseEntity;
 
 public class UserInfo extends BaseEntity {
 	
-	private static final long serialVersionUID = 11L;
+	private static final long serialVersionUID = 111L;
 
     private String mobile;
 
