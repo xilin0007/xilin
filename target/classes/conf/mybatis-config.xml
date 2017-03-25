@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
     <!-- 命名空间 -->
     <typeAliases>
-		         
+			         
     </typeAliases>
     
 </configuration>
