@@ -13,6 +13,7 @@ import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.mapper.UserInfoMapper;
 import com.fxl.template.user.service.UserInfoService;
 import com.fxl.template.user.vo.VOUserPageList;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -46,9 +47,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 		UserInfo u1 = new UserInfo();
 		u1.setNickName("rollBackName");
 		u1.setId(uId1);
-		Integer ret = userInfoMapper.update(u1);
 		try {
-			int a = 3/0;
+			Integer ret = userInfoMapper.update(u1);
+			int a = 3/0;//模拟异常
 			return (ret>0);
 		} catch (Exception e) {
 			log.error("异常，将进行回滚");
@@ -58,11 +59,17 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 
 	@Override
 	public List<UserInfo> findByNickName(String nickName, Integer size) throws ServiceException{
-		try {
-			return userInfoMapper.findByNickName(nickName, size);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ServiceException();
-		}
+		return userInfoMapper.findByNickName(nickName, size);
 	}
+
+	@Override
+	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName) throws ServiceException {
+		QVOCondition qvo = new QVOCondition();
+		qvo.setNickName(nickName);
+		PageHelper.startPage(page.getPageNum(), page.getPageSize());
+		List<UserInfo> list = userInfoMapper.findByPage(qvo);
+		PageInfo<UserInfo> pages = new PageInfo<UserInfo>(list);
+		return pages;
+	}
+	
 }

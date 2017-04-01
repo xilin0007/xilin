@@ -8,6 +8,7 @@ import java.util.concurrent.RecursiveAction;
 /**
  * ForkJoinPool
  * 任务分解
+ * 执行继承了RecursiveAction类的对象task
  * @Description TODO
  * @author fangxilin
  * @date 2017-3-29
@@ -36,8 +37,18 @@ public class ForkJoinPoolTest {
 		} while (!task.isDone());
 		//关闭线程池
 		pool.shutdown();
-		
 		//检查任务是否已完成并没有错误
+		if (task.isCompletedNormally()) {
+			System.out.printf("Main: The process has completed normally.\n");
+		}
+		//打印出产品修改后的价格
+		for (int i = 0; i < products.size(); i++) {
+			Product product = products.get(i);
+			if (product.getPrice() != 12) {
+				System.out.printf("Product %s: %f\n", product.getName(), product.getPrice());
+			}
+		}
+		System.out.println("Main: End of the program");
 		
 	}
 }
@@ -74,7 +85,7 @@ class ProductListGenerator {
 	}
 }
 
-//继承RecursiveAction：用于任务没有返回结果的场景
+//继承RecursiveAction（递归）：用于任务没有返回结果的场景
 class Task extends RecursiveAction {
 
 	private static final long serialVersionUID = 1L;
@@ -91,7 +102,7 @@ class Task extends RecursiveAction {
 		this.increment = increment;
 	}
 	
-	//任务的执行逻辑
+	//任务的执行逻辑,执行更改价格
 	@Override
 	protected void compute() {
 		//如果相差小于10，调用updatePrices()

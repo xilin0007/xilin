@@ -29,5 +29,5 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 	 * @param size
 	 * @return
 	 */
-	public List<UserInfo> findByNickName(@Param("nickName") String nickName, @Param("size") Integer size) throws Exception;
+	public List<UserInfo> findByNickName(@Param("nickName") String nickName, @Param("size") Integer size);
 }
