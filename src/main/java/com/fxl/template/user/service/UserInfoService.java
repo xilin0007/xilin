@@ -6,10 +6,12 @@ import com.fxl.exception.ServiceException;
 import com.fxl.frame.base.BaseService;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.vo.VOUserPageList;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 
 public interface UserInfoService extends BaseService<UserInfo> {
 	/**
-	 * 分页查询用户列表
+	 * 返回分页用户列表信息
 	 * @version 1.0
 	 * @createTime 2017-3-8,下午5:14:05
 	 * @createAuthor fangxilin
@@ -39,4 +41,15 @@ public interface UserInfoService extends BaseService<UserInfo> {
 	 * @return
 	 */
 	public List<UserInfo> findByNickName(String nickName, Integer size) throws ServiceException;
+	
+	/**
+	 * 搜索分页查询用户列表页面
+	 * @version 1.0
+	 * @createTime 2017-4-1,下午4:58:44
+	 * @createAuthor fangxilin
+	 * @param page
+	 * @param nickName
+	 * @return
+	 */
+	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName) throws ServiceException;
 }

@@ -217,6 +217,7 @@
 			<version>1.2.3</version>
 		</dependency>
 		
+		<!-- spring4需要依赖的包 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>

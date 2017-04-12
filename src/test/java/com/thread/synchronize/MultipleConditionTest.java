@@ -88,7 +88,7 @@ class Buffer {
 			while (buffer.size() == maxSize) {
 				space.await();//等待空位出现
 			}
-			buffer.offer(line);
+			buffer.offer(line);//添加内容
 			System.out.printf("%s: Inserted Line: %d\n", Thread.currentThread().getName(), buffer.size());
 			lines.signalAll();//唤醒
 		} catch (InterruptedException e) {
@@ -103,11 +103,11 @@ class Buffer {
 		String line = null;
 		lock.lock();
 		try {
-			while (buffer.size() == 0 && hasPendingLines()) {
+			while (buffer.size() == 0 && !hasPendingLines()) {
 				lines.await();//等待空位出现
 			}
 			if (hasPendingLines()) {
-				line = buffer.poll();
+				line = buffer.poll();//移除掉第一个元素
 				System.out.printf("%s: Line Readed: %d\n", Thread.currentThread().getName(), buffer.size());
 				space.signalAll();//唤醒
 			}
@@ -129,7 +129,7 @@ class Buffer {
 	}
 }
 
-//生产类
+//生产类--生成数据缓冲
 class Producer2 implements Runnable{
 	
 	private FileMock mock;
@@ -144,14 +144,14 @@ class Producer2 implements Runnable{
 	public void run() {
 		buffer.setPendingLines(true);
 		while (mock.hasMoreLines()) {
-			String line = mock.getLine();
+			String line = mock.getLine();//获取100-0行的内容
 			buffer.insert(line);
 		}
 		buffer.setPendingLines(false);
 	}
 }
 
-//消费类
+//消费类--取出数据缓冲
 class Consumer2 implements Runnable{
 	private Buffer buffer;
 	public Consumer2(Buffer buffer) {

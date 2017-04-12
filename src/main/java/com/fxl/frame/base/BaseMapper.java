@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface BaseMapper<T extends BaseEntity> {
 	
-	public T findById(Integer id) throws Exception;
+	public T findById(Integer id);
 	
 	public Integer insert(T paramT) throws Exception;
 
@@ -12,10 +12,8 @@ public interface BaseMapper<T extends BaseEntity> {
 
 	public Integer delete(Integer id) throws Exception;
 
-	//public Integer update(T paramT) throws Exception;
+	public Integer update(T paramT) throws Exception;
 	
-	public Integer update(T paramT);
-	
-	public Integer updateBatch(List<T> paramList);
+	public Integer updateBatch(List<T> paramList) throws Exception;
 
 }

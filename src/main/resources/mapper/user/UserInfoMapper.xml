@@ -148,7 +148,7 @@
 	</update>
 	
 	<select id="findByPage" parameterType="com.fxl.frame.common.QVOCondition" resultMap="BaseResultMap">
-		select * from user_info where nick_name like CONCAT(#{nickName}, '%')
+		select * from user_info where nick_name like CONCAT('%', #{nickName}, '%')
 	</select>
 	
 	<!-- 搜素用户昵称 -->
