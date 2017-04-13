@@ -11,7 +11,7 @@
 	<meta http-equiv="description" content="This is my page">
 	
 	<jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sfile/css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sfile/css/jquery-ui.css?${v}">
 	
 </head>
 
@@ -22,8 +22,7 @@
 	</p>
 </body>
 <jsp:include page="/WEB-INF/jsp/common/foot.jsp"></jsp:include>
-<script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/jquery-1.10.2.min.js" ></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/jquery-ui.js" ></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/jquery-ui.js?${v}" ></script>
 <script type="text/javascript">    
 	$(document).ready(function() {
 	    var availableTags = [

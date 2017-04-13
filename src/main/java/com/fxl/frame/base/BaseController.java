@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fxl.frame.util.Const;
 import com.fxl.log.LogTool;
 
 @Controller
@@ -31,5 +32,6 @@ public class BaseController {
     public void setReqAndRes(HttpServletRequest request, HttpServletResponse response) throws IOException{
         this.request = request;
         this.response = response;
+        this.request.setAttribute("v", Const.VERSION);
     }
 }

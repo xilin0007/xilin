@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<script type="text/javascript">
-	var baseUrl = "${pageContext.request.contextPath}";
-</script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sfile/css/bootstrap.css?${v}">
+
 
