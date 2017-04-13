@@ -11,6 +11,7 @@
 	<meta http-equiv="description" content="This is my page">
 	
 	<jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sfile/css/page.css?${v}">
 	
 </head>
 
