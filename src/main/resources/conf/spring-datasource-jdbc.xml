@@ -117,6 +117,7 @@
 			<tx:method name="find*" read-only="true" />
 			<tx:method name="query*" read-only="true" />
 			<tx:method name="is*" read-only="true" />
+			<!-- java.lang.RuntimeException -->
 			<!-- <tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Throwable" /> -->
 			<tx:method name="*" propagation="REQUIRED" rollback-for="com.fxl.exception.ServiceException" />
 		</tx:attributes>
@@ -129,6 +130,6 @@
 	</aop:config>
 	
 	<!-- 开启AOP监听 只对当前配置文件有效，启用对事务注解的支持 -->
-	<!-- <aop:aspectj-autoproxy expose-proxy="true" /> -->
+	<aop:aspectj-autoproxy expose-proxy="true" />
      
 </beans>

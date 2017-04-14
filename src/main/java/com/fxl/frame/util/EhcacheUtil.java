@@ -8,7 +8,7 @@ import net.sf.ehcache.Element;
 
 public class EhcacheUtil {  
 	  
-    private static final String path = "/ehcache.xml";  
+    private static final String path = "conf/ehcache.xml";  
   
     private final URL url;  
   

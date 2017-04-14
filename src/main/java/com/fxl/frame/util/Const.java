@@ -11,4 +11,11 @@ package com.fxl.frame.util;
 public class Const {
 	/** 版本号 v+日期+版本 **/
 	public final static String VERSION = "V1704013.1.0.0";
+	
+	/** yyyy-MM-dd时间格式 **/
+	public static final String YYYYMMDD = "yyyy-MM-dd";
+	
+	/** yyyy-MM-dd HH:mm:ss时间格式 **/
+	public static final String YYYYMMDD_HHMMSS = "yyyy-MM-dd HH:mm:ss";
+	
 }
