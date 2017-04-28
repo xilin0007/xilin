@@ -20,6 +20,7 @@
 		<label>自动提示:</label>    
 		<input type="text" id="tags" />
 	</p>
+	<a id="testIdList">测试</a>
 </body>
 <jsp:include page="/WEB-INF/jsp/common/foot.jsp"></jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/jquery-ui.js?${v}" ></script>
@@ -81,6 +82,16 @@
 	      	}
 	      	
 	    });
+	    
+	    $("#testIdList").on("click", function() {
+	    	var postDate = new Array();
+	    	postDate.push(3);
+	    	postDate.push(4);
+			$.post(baseUrl + "/userPage/testIdList", {idList : postDate}, function(ret) {
+				alert(ret.msgbox);				
+			}, "json");
+		});
+	    
 	});
 	/* $(function(){
 		

@@ -63,4 +63,22 @@ public class UserPageController extends BaseController {
 		}
 		return "user/listPageUser";
 	}
+	
+	/**
+	 * 测试传List参数
+	 * @createTime 2017-4-28,下午4:35:03
+	 * @createAuthor fangxilin
+	 * @param idList
+	 * @return
+	 */
+	@RequestMapping("/testIdList")
+	@ResponseBody
+	public ReturnMsg findByNickName(@RequestParam(value = "idList[]") List<Integer> idList){
+		try {
+			log.info(idList.toString());
+			return new ReturnMsg(ReturnMsg.SUCCESS, "搜索成功");
+		} catch (Exception e) {
+			return new ReturnMsg(ReturnMsg.FAIL, "搜索异常", new ArrayList<>());
+		}
+	}
 }
