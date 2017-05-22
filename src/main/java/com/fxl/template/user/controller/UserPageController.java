@@ -1,8 +1,18 @@
 package com.fxl.template.user.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
+import com.fxl.frame.util.DownloadFile;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.service.UserInfoService;
 import com.github.pagehelper.Page;
@@ -73,7 +84,7 @@ public class UserPageController extends BaseController {
 	 */
 	@RequestMapping("/testIdList")
 	@ResponseBody
-	public ReturnMsg findByNickName(@RequestParam(value = "idList[]") List<Integer> idList){
+	public ReturnMsg testIdList(@RequestParam(value = "idList[]") List<Integer> idList){
 		try {
 			log.info(idList.toString());
 			return new ReturnMsg(ReturnMsg.SUCCESS, "搜索成功");
@@ -81,4 +92,34 @@ public class UserPageController extends BaseController {
 			return new ReturnMsg(ReturnMsg.FAIL, "搜索异常", new ArrayList<>());
 		}
 	}
+	
+	@RequestMapping("/downloadNet")
+	public void downloadNet(HttpServletResponse response, 
+			@RequestParam(value = "urlString") String urlString) {  
+        // 下载网络文件  
+		String fileName = "二维码.jpg";
+		//fileName = new String(fileName.getBytes(),"iso-8859-1");
+        String filePath = DownloadFile.download(urlString, fileName);
+        OutputStream outStream = null;
+        InputStream inStream = null;
+        try {
+	    	inStream = new BufferedInputStream(new FileInputStream(filePath));
+		    byte[] buffer = new byte[inStream.available()];
+		    inStream.read(buffer);
+		    response.reset();
+		    // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
+		    response.addHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes(), "iso-8859-1"));
+		    outStream = new BufferedOutputStream(response.getOutputStream());
+		    response.setContentType("application/octet-stream");
+		    outStream.write(buffer);// 输出文件
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(inStream, outStream);
+			 /** 最后将临时文件删除 **/
+        	File file = new File(filePath);
+        	FileUtils.deleteQuietly(file);
+		}
+    }
+	
 }

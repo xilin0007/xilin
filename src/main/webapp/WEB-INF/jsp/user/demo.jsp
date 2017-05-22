@@ -20,7 +20,13 @@
 		<label>自动提示:</label>    
 		<input type="text" id="tags" />
 	</p>
-	<a id="testIdList">测试</a>
+	<a id="testIdList">测试传List参数</a>
+	
+	<div>
+		<img id="imgFile" src="http://img.jumper-health.com/img/food/303D48E853ACF569FDBD8B3418C58A44.jpg" width="50px" height="50px">
+		<a id="download">测试下载网络文件</a>
+	</div>
+	
 </body>
 <jsp:include page="/WEB-INF/jsp/common/foot.jsp"></jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/jquery-ui.js?${v}" ></script>
@@ -59,7 +65,7 @@
 			{ label: "Japanese", value: 6, sayHi: "こんにちは" }
 		];
 		
-		
+		//////////////////////////////////////////////////////////////
 		
 	    $("#tags").autocomplete({
 	    	autoFocus: true,
@@ -83,6 +89,7 @@
 	      	
 	    });
 	    
+	    //测试传List参数
 	    $("#testIdList").on("click", function() {
 	    	var postDate = new Array();
 	    	postDate.push(3);
@@ -90,6 +97,12 @@
 			$.post(baseUrl + "/userPage/testIdList", {idList : postDate}, function(ret) {
 				alert(ret.msgbox);				
 			}, "json");
+		});
+		
+		//测试下载网络文件
+		$("#download").click(function() {
+			var urlString = $("#imgFile").attr("src");
+			window.location.href = baseUrl + "/userPage/downloadNet?urlString=" + urlString;
 		});
 	    
 	});

@@ -1,5 +1,9 @@
 package com;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
+
 
 
 
@@ -15,6 +19,11 @@ public class Test1 {
 		
 		String jsonString = JSON.toJSONString(list);
 		System.out.println(jsonString);*/
+		
+		/** 最后将临时文件删除 **/
+    	File file = new File("e:/二维码.jpg");
+    	boolean ret = FileUtils.deleteQuietly(file);
+    	System.out.println(ret);
 	}
 
 }
