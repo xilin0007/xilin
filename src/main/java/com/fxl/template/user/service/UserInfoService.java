@@ -52,4 +52,15 @@ public interface UserInfoService extends BaseService<UserInfo> {
 	 * @return
 	 */
 	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName) throws ServiceException;
+	
+	/**
+	 * 返回分页列表
+	 * @createTime 2017-6-6,下午6:03:43
+	 * @createAuthor fangxilin
+	 * @param pageNum
+	 * @param pageSize
+	 * @param nickName
+	 * @return
+	 */
+	public List<UserInfo> listPageUser(int pageNum, int pageSize, String nickName);
 }

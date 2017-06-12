@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
 
 public class DownloadFile {
 	
-	private static final String FILE_DIR = "e:/";
+	private static final String FILE_DIR = System.getProperty("java.io.tmpdir");
 	
 	public static String download(String urlString, String fileName) {
 		System.out.println("download start.......");

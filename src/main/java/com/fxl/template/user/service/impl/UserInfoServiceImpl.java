@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.fxl.exception.ServiceException;
 import com.fxl.frame.base.BaseMapper;
 import com.fxl.frame.base.BaseServiceImpl;
-import com.fxl.frame.common.QVOCondition;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.mapper.UserInfoMapper;
 import com.fxl.template.user.service.UserInfoService;
@@ -31,10 +30,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 	@Override
 	public VOUserPageList findByPage(int page, int limit) {
 		log.info("测试info日志打印");
-		QVOCondition qvo = new QVOCondition();
-		qvo.setNickName("天使医生11");
+		String nickName = "天使医生11";
 		PageHelper.startPage(page, limit);
-		List<UserInfo> list = userInfoMapper.findByPage(qvo);
+		List<UserInfo> list = userInfoMapper.findByPage(nickName);
 		PageInfo<UserInfo> pages = new PageInfo<UserInfo>(list);
 		VOUserPageList vo = new VOUserPageList();
 		vo.setUserList(list);
@@ -49,8 +47,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 		u1.setId(uId1);
 		try {
 			Integer ret = userInfoMapper.update(u1);
-			int a = 3/0;//模拟异常
-			return (ret>0);
+			int a = 3 / 0;//模拟异常
+			return (ret > 0);
 		} catch (Exception e) {
 			log.error("异常，将进行回滚");
 			throw new ServiceException();
@@ -64,12 +62,17 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 
 	@Override
 	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName) throws ServiceException {
-		QVOCondition qvo = new QVOCondition();
-		qvo.setNickName(nickName);
 		PageHelper.startPage(page.getPageNum(), page.getPageSize());
-		List<UserInfo> list = userInfoMapper.findByPage(qvo);
+		List<UserInfo> list = userInfoMapper.findByPage(nickName);
 		PageInfo<UserInfo> pages = new PageInfo<UserInfo>(list);
 		return pages;
+	}
+
+	@Override
+	public List<UserInfo> listPageUser(int pageNum, int pageSize, String nickName) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<UserInfo> list = userInfoMapper.findByPage(nickName);
+		return list;
 	}
 	
 }

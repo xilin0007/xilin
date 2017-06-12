@@ -1,18 +1,22 @@
 package com.fxl.template.user.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
 import com.fxl.frame.util.DownloadFile;
+import com.fxl.frame.util.GenerateQRCode;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.service.UserInfoService;
 import com.github.pagehelper.Page;
@@ -58,10 +63,14 @@ public class UserPageController extends BaseController {
 			Object data = (returnList != null) ? returnList : new ArrayList<>();
 			return new ReturnMsg(ReturnMsg.SUCCESS, "搜索成功", data);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ReturnMsg(ReturnMsg.FAIL, "搜索异常", new ArrayList<>());
 		}
 	}
 	
+	/**
+	 * jsp分页
+	 */
 	@RequestMapping("/listPageUser")
 	public String listPageUser(ModelMap model, Page<UserInfo> page, String nickName) {
 		try {
@@ -74,6 +83,63 @@ public class UserPageController extends BaseController {
 		}
 		return "user/listPageUser";
 	}
+	
+	/**
+	 * 基于layui的分页
+	 */
+	@RequestMapping("/listPageUserLayui")
+	public String listPageUserLayui() {
+		return "user/listPageUserLayui";
+	}
+	
+	/**
+	 * 基于mui的H5分页
+	 */
+	@RequestMapping("/pullrefreshSub")
+	public String pullrefreshMain() {
+		return "user/pullrefreshSub";
+	}
+	
+	/**
+	 * 分页ajax接口
+	 */
+	@RequestMapping("/pageUserAjax")
+	@ResponseBody
+	public ReturnMsg pageUserAjax(@RequestParam(required = false) String query,
+			@RequestParam int pageNum,
+			@RequestParam int pageSize) {
+		try {
+			query = (StringUtils.isNotEmpty(query)) ? query : null;
+			//最好传基本参数类型来代替Page参数
+			Page<UserInfo> page = new Page<UserInfo>();
+			page.setPageNum(pageNum);
+			page.setPageSize(pageSize);
+			PageInfo<UserInfo> pageInfo = userInfoService.listPageUser(page, query);
+			return new ReturnMsg(ReturnMsg.SUCCESS, "搜索成功", pageInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ReturnMsg(ReturnMsg.FAIL, "搜索异常", new ArrayList<>());
+		}
+	}
+	
+	/**
+	 * 分页ajax接口-只返回列表
+	 */
+	@RequestMapping("/pageUserAjaxList")
+	@ResponseBody
+	public ReturnMsg pageUserAjaxList(@RequestParam(required = false) String query,
+			@RequestParam int pageNum,
+			@RequestParam int pageSize) {
+		try {
+			query = (StringUtils.isNotEmpty(query)) ? query : null;
+			List<UserInfo> data = userInfoService.listPageUser(pageNum, pageSize, query);
+			return new ReturnMsg(ReturnMsg.SUCCESS, "搜索成功", data);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ReturnMsg(ReturnMsg.FAIL, "搜索异常", new ArrayList<>());
+		}
+	}
+	
 	
 	/**
 	 * 测试传List参数
@@ -93,6 +159,13 @@ public class UserPageController extends BaseController {
 		}
 	}
 	
+	/**
+	 * 下载网络文件
+	 * @createTime 2017-5-23,上午10:20:40
+	 * @createAuthor fangxilin
+	 * @param response
+	 * @param urlString
+	 */
 	@RequestMapping("/downloadNet")
 	public void downloadNet(HttpServletResponse response, 
 			@RequestParam(value = "urlString") String urlString) {  
@@ -108,7 +181,7 @@ public class UserPageController extends BaseController {
 		    inStream.read(buffer);
 		    response.reset();
 		    // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
-		    response.addHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes(), "iso-8859-1"));
+		    response.addHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("gb2312"), "iso-8859-1"));
 		    outStream = new BufferedOutputStream(response.getOutputStream());
 		    response.setContentType("application/octet-stream");
 		    outStream.write(buffer);// 输出文件
@@ -121,5 +194,29 @@ public class UserPageController extends BaseController {
         	FileUtils.deleteQuietly(file);
 		}
     }
+	
+	/**
+	 * 生成二维码
+	 * @createTime 2017-5-23,上午10:47:38
+	 * @createAuthor fangxilin
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("/generateQRCode")
+	public void generateQRCode(HttpServletResponse response) throws IOException {
+		//设置页面不缓存  
+        response.setHeader("Pragma", "no-cache");  
+        response.setHeader("Cache-Control", "no-cache");  
+        response.setDateHeader("Expires", 0);
+        //设置输出的内容的类型为JPEG图像  
+        response.setContentType("image/png");
+        String filePath = GenerateQRCode.generate("https://www.baidu.com");
+        File file = new File(filePath);
+        BufferedImage bufferedImage = ImageIO.read(file);
+        //写给浏览器  
+        ImageIO.write(bufferedImage, "png", response.getOutputStream());
+        //最后删除临时文件
+        file.delete();
+	}
 	
 }

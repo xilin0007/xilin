@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.fxl.frame.base.BaseMapper;
-import com.fxl.frame.common.QVOCondition;
 import com.fxl.template.user.entity.UserInfo;
 
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
@@ -15,10 +14,10 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 	 * @version 1.0
 	 * @createTime 2017-3-8,下午5:14:05
 	 * @createAuthor fangxilin
-	 * @param qvo
+	 * @param nickName
 	 * @return
 	 */
-	public List<UserInfo> findByPage(QVOCondition qvo);
+	public List<UserInfo> findByPage(String nickName);
 	
 	/**
 	 * 

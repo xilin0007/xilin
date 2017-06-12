@@ -72,28 +72,28 @@
 		<property name="configLocation" value="classpath:conf/mybatis-config.xml"></property>
 		<!-- 加载mapper文件 -->
 		<property name="mapperLocations" value="classpath:mapper/**/*.xml"></property>
-		
-		<property name="plugins">
+		<!-- PageHelper分页 -->
+		<!-- <property name="plugins">
 			<array>
 				<bean class="com.github.pagehelper.PageHelper">
 					<property name="properties">
-						<!-- 属性一行一个，具体属性参考mybatis-config.xml中的属性 -->
+						属性一行一个，具体属性参考mybatis-config.xml中的属性
 						<value>
 							helperDialect=mysql
-							<!-- 该参数默认为false -->
-							<!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
-							<!-- 和startPage中的pageNum效果一样 -->
+							该参数默认为false
+							设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用
+							和startPage中的pageNum效果一样
 							offsetAsPageNum=true
-							<!-- 该参数默认为false -->
-							<!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+							该参数默认为false
+							设置为true时，使用RowBounds分页会进行count查询
 							rowBoundsWithCount=true
-							<!-- 分页合理化 -->
-							reasonable=true
+							分页合理化
+							reasonable=false
 						</value>
 					</property>
 				</bean>
 			</array>
-		</property>
+		</property> -->
 	</bean>
 	
 	<!-- mybatis自动映射 -->

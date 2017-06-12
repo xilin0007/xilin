@@ -20,16 +20,32 @@
 		<label>自动提示:</label>    
 		<input type="text" id="tags" />
 	</p>
-	<a id="testIdList">测试传List参数</a>
+	</br>
+	
+	<div><a id="testIdList">测试传List参数</a></div>
+	</br>
 	
 	<div>
-		<img id="imgFile" src="http://img.jumper-health.com/img/food/303D48E853ACF569FDBD8B3418C58A44.jpg" width="50px" height="50px">
+		<img id="imgFile" src="http://img.jumper-health.com/img/food/303D48E853ACF569FDBD8B3418C58A44.jpg" width="150px" height="150px">
 		<a id="download">测试下载网络文件</a>
 	</div>
+	</br>
+	
+	<p>生成二维码</p>
+	<img src="${pageContext.request.contextPath}/userPage/generateQRCode" width="150px" height="150px">
+	</br>
+	
+	<p>日期插件</p>
+	<input id="birthday" readonly="readonly">
 	
 </body>
 <jsp:include page="/WEB-INF/jsp/common/foot.jsp"></jsp:include>
+<!-- 自动提示用到 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/jquery-ui.js?${v}" ></script>
+<!-- layui日期插件 -->
+<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/laydate/laydate.js"></script> --%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/layui/layui.js?${v}" ></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/sfile/js/ajax/demo.js?${v}" ></script>
 <script type="text/javascript">    
 	$(document).ready(function() {
 	    var availableTags = [
@@ -66,49 +82,7 @@
 		];
 		
 		//////////////////////////////////////////////////////////////
-		
-	    $("#tags").autocomplete({
-	    	autoFocus: true,
-	      	minLength: 1,        //触发自动填充需要的最小字符长度
-	      	source: function(request, response) {
-	      		var postData = {nickName: request.term, size: 15};
-	      		$.post(baseUrl + "/userPage/findByNickName", postData, function(ret){
-	      			if(ret.msg == 1){
-	      				var searchList = $.map(ret.data, function(item, index){
-	      					return {label: item.nickName, value: item.id, id: item.id};
-	      				});
-	      				response(searchList);
-	      			}else{
-	      				alert("搜索异常");
-	      			}
-	      		});
-	      	},
-	      	select: function(event, ui){
-	      		alert("选中了："+ui.item.label+", id："+ui.item.id);
-	      	}
-	      	
-	    });
-	    
-	    //测试传List参数
-	    $("#testIdList").on("click", function() {
-	    	var postDate = new Array();
-	    	postDate.push(3);
-	    	postDate.push(4);
-			$.post(baseUrl + "/userPage/testIdList", {idList : postDate}, function(ret) {
-				alert(ret.msgbox);				
-			}, "json");
-		});
-		
-		//测试下载网络文件
-		$("#download").click(function() {
-			var urlString = $("#imgFile").attr("src");
-			window.location.href = baseUrl + "/userPage/downloadNet?urlString=" + urlString;
-		});
-	    
-	});
-	/* $(function(){
-		
-	}); */
+	});	
 </script>   
 
 </html>

@@ -1,11 +1,6 @@
 package com;
 
-import java.io.File;
-
-import org.apache.commons.io.FileUtils;
-
-
-
+import com.fxl.frame.util.GenerateQRCode;
 
 public class Test1 {
 	
@@ -20,10 +15,20 @@ public class Test1 {
 		String jsonString = JSON.toJSONString(list);
 		System.out.println(jsonString);*/
 		
-		/** 最后将临时文件删除 **/
-    	File file = new File("e:/二维码.jpg");
-    	boolean ret = FileUtils.deleteQuietly(file);
-    	System.out.println(ret);
+		/*String filePath = GenerateQRCode.generate("https://www.baidu.com");
+		System.out.println(filePath);*/
+		
+		/*String targetFileName = new SimpleDateFormat("yyyyMMdd").format(new Date()) + UUID.randomUUID().toString().replaceAll("-", "");
+		System.out.println(targetFileName);*/
+		
+		/*String encodeUrl = URLEncoder.encode("http://hospital.jumper-health.com/new_weight/base/login", "UTF-8");
+		System.out.println(encodeUrl);*/
+		
+		String filePath = "G:/media/Desktop/二维码.jpg";
+		String decode = GenerateQRCode.decode(filePath);
+		System.out.println(decode);
+
+    	
 	}
 
 }
