@@ -15,7 +15,9 @@
                         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 	
 	<!-- 4:扫描web相关的bean(只需扫controller，Spring已经扫过了，避免事务失效) -->
-	<context:component-scan base-package="com.fxl.template.*.controller" >
+	<context:component-scan base-package="com.fxl.template.*.controller,com.fxl.configuration" >
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
 	
 	<!-- 2：允许静态资源映射 -->

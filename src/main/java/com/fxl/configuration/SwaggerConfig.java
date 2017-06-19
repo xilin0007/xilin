@@ -6,9 +6,6 @@ import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.models.dto.ApiInfo;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 
-/**
- * Created by xiaohui on 2016/1/14.
- */
 //@Configuration
 //@EnableSwagger
 public class SwaggerConfig {

@@ -48,7 +48,5 @@
 	<!-- <import resource="classpath:conf/spring-dubbo-consumer.xml"/> -->
 	<!-- 导入定时器配置文件 -->
 	<!-- <import resource="classpath:conf/spring-quartz.xml"/> -->
-	
-	
  	
 </beans>

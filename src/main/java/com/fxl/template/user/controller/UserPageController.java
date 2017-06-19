@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -26,8 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
+import com.fxl.frame.util.Consts;
 import com.fxl.frame.util.DownloadFile;
 import com.fxl.frame.util.GenerateQRCode;
+import com.fxl.frame.util.SessionUtils;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.service.UserInfoService;
 import com.github.pagehelper.Page;
@@ -42,6 +45,12 @@ public class UserPageController extends BaseController {
 	
 	@RequestMapping("/demo")
 	public String demo() {
+		//测试设置session
+		HttpSession session = getRequest().getSession();
+		session.setAttribute("baseUrl", Consts.BASE_URL);
+		//测试获取session
+		String baseUrl = SessionUtils.getHttpBaseUrl();
+		log.info(baseUrl);
 		return "user/demo";
 	}
 	

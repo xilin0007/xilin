@@ -38,6 +38,12 @@ public class CommonInterceptor implements HandlerInterceptor {
 		String uri =  request.getRequestURI();
 		requestParam = (StringUtils.isNotEmpty(requestParam))?requestParam.substring(0, requestParam.lastIndexOf(",")):"";
 		logger.info("请求方式："+request.getMethod()+",访问路径："+uri+",输出参数==>"+requestParam);
+		//获取自定义头部信息
+		String keyvalue = request.getHeader("key");
+		//192.168.1.235
+		String host = request.getHeader("Host");
+		//http://192.168.1.235:8080/template
+		String basePath = request.getHeader("origin") + request.getContextPath();
 		return true;
 	}
 	

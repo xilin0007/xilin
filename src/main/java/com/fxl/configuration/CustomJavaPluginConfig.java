@@ -2,7 +2,7 @@ package com.fxl.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,19 +15,15 @@ import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 
 /**
  * 使用注解的方式来扫描API 无需在Spring的xml配置文件来配置，由 @see @EnableWebMvc 代替
- * <p/>
- * <p>
  * @author 刘新宇
- * 
- * <p>
  * @date 2015年1月30日 下午1:18:48
- * <p>
  * @version 0.0.1 SpringSwaggerConfig
  */
-//@Configuration
+@Configuration
 @EnableSwagger
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.fxl.template.index.encyclopedia.controller" })
+//com.fxl.template.index.encyclopedia.controller
+//@ComponentScan(basePackages = { "com.fxl.template.*.controller" })
 public class CustomJavaPluginConfig extends WebMvcConfigurerAdapter {
 	private SpringSwaggerConfig springSwaggerConfig;
 
@@ -38,7 +34,6 @@ public class CustomJavaPluginConfig extends WebMvcConfigurerAdapter {
 
 	/**
 	 * 链式编程 来定制API样式 后续会加上分组信息
-	 * 
 	 * @return
 	 */
 	@Bean

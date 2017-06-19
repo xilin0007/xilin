@@ -1,17 +1,20 @@
 package com.fxl.log;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 public class LogTool {
-	//private Logger logger = LoggerFactory.getLogger(LogTool.class);
-	protected Logger logger = Logger.getLogger(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(LogTool.class);
+	//protected Logger logger = Logger.getLogger(this.getClass());
 
 	public static LogTool getInstance(Object[] objects) {
 		LogTool log = new LogTool();
 		if ((objects != null) && (objects.length > 0)
 				&& (objects[0] instanceof Class)) {
-			log.logger = Logger.getLogger((Class) objects[0]);
+			log.logger = LoggerFactory.getLogger((Class) objects[0]);
+			//log.logger = Logger.getLogger((Class) objects[0]);
 		}
 		return log;
 	}
