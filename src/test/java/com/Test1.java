@@ -1,6 +1,5 @@
 package com;
 
-import com.fxl.frame.util.GenerateQRCode;
 
 public class Test1 {
 	
@@ -24,11 +23,23 @@ public class Test1 {
 		/*String encodeUrl = URLEncoder.encode("http://hospital.jumper-health.com/new_weight/base/login", "UTF-8");
 		System.out.println(encodeUrl);*/
 		
-		String filePath = "G:/media/Desktop/二维码.jpg";
+		/*String filePath = "G:/media/Desktop/二维码.jpg";
 		String decode = GenerateQRCode.decode(filePath);
-		System.out.println(decode);
-
-    	
+		System.out.println(decode);*/
+		
+		/*String url = "http://192.168.0.2:8080/nutritionV2/sport/listSportsByName";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("query", "步");
+		HttpClient httpClient = new HttpClient(url, params);
+		String ret = "";
+		try {
+			ret = httpClient.post();
+			System.out.println(ret);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		System.out.println(String.format("(\"%s\", \"%s\", \"%s\"),\n", 11, 22, 33));
 	}
 
 }

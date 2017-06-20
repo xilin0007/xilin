@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.PinyinChineseMapper">
+	<resultMap id="BaseResultMap" type="com.entity.PinyinChinese">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+		<result column="py_header" property="pyHeader" jdbcType="VARCHAR" />
+		<result column="chinese" property="chinese" jdbcType="VARCHAR" />
+		<result column="word_num" property="wordNum" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, pinyin, py_header, chinese, word_num
+	</sql>
+	<select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from pinyin_chinese
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+</mapper>
