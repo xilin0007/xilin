@@ -228,4 +228,8 @@ public class UserPageController extends BaseController {
         file.delete();
 	}
 	
+	/*public ReturnMsg searchByPinyin(@RequestParam(required = false) String query, 
+			@RequestParam int size) {
+		
+	}*/
 }
