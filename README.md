@@ -1,2 +1,1 @@
-# template
-my repository
+ssm项目小案例
