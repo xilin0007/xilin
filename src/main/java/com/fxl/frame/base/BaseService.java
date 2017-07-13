@@ -6,7 +6,7 @@ import com.fxl.exception.ServiceException;
 
 public interface BaseService<T extends BaseEntity> {
 	
-	public T findById(Integer id) throws ServiceException;
+	public T findById(Integer id);
 	
 	public boolean insert(T paramT) throws ServiceException;
 

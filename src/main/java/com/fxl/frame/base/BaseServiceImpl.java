@@ -12,12 +12,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 	protected abstract BaseMapper<T> getDao();
 	
 	@Override
-	public T findById(Integer id) throws ServiceException {
-		try {
-			return getDao().findById(id);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+	public T findById(Integer id) {
+		return getDao().findById(id);
 	}
 	
 	@Override
