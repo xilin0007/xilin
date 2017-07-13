@@ -8,6 +8,7 @@ $(function() {
       		var postData = {nickName: request.term, size: 15};
       		$.post(baseUrl + "/userPage/findByNickName", postData, function(ret) {
       			if(ret.msg == 1) {
+      				//label：下拉框显示的列表，value：选中后输入框所赋的
       				var searchList = $.map(ret.data, function(item, index){
       					return {label: item.nickName, value: item.id, id: item.id};
       				});
@@ -15,6 +16,32 @@ $(function() {
       			}else{
       				alert("搜索异常");
       			}
+      		});
+      	},
+      	select: function(event, ui) {
+      		alert("选中了："+ui.item.label+", id："+ui.item.id);
+      	}
+    });
+	
+	//拼音模糊搜索补全
+	$("#pySearch").autocomplete({
+    	autoFocus: true,
+      	minLength: 1,        //触发自动填充需要的最小字符长度
+      	source: function(request, response) {
+      		var query = request.term.trim();
+      		if (query == "") {
+				return;
+			}
+      		var postData = {query: query, size: 20};
+      		$.post(baseUrl + "/userPage/searchByPinyin", postData, function(ret) {
+      			if (ret.msg != 1) {
+      				alert("搜索异常");
+      				return;
+				}
+  				var searchList = $.map(ret.data, function(item, index){
+  					return {label: item.chinese, value: item.id, id: item.id};
+  				});
+  				response(searchList);
       		});
       	},
       	select: function(event, ui) {

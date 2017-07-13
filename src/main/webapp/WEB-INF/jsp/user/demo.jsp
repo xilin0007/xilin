@@ -22,6 +22,12 @@
 	</p>
 	</br>
 	
+	<p>    
+		<label>拼音模糊搜索补全:</label>    
+		<input type="text" id="pySearch" />
+	</p>
+	</br>
+	
 	<div><a id="testIdList">测试传List参数</a></div>
 	</br>
 	

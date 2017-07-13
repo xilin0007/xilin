@@ -30,8 +30,11 @@ import com.fxl.frame.common.ReturnMsg;
 import com.fxl.frame.util.Consts;
 import com.fxl.frame.util.DownloadFile;
 import com.fxl.frame.util.GenerateQRCode;
+import com.fxl.frame.util.PinyinAPI;
 import com.fxl.frame.util.SessionUtils;
+import com.fxl.template.user.entity.PinyinChinese;
 import com.fxl.template.user.entity.UserInfo;
+import com.fxl.template.user.service.PinyinChineseService;
 import com.fxl.template.user.service.UserInfoService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -42,6 +45,8 @@ public class UserPageController extends BaseController {
 	
 	@Autowired
 	private UserInfoService userInfoService;
+	@Autowired
+	private PinyinChineseService pinyinChineseService;
 	
 	@RequestMapping("/demo")
 	public String demo() {
@@ -228,8 +233,26 @@ public class UserPageController extends BaseController {
         file.delete();
 	}
 	
-	/*public ReturnMsg searchByPinyin(@RequestParam(required = false) String query, 
+	/**
+	 * 拼音模糊查询
+	 * @createTime 2017-7-3,下午2:07:40
+	 * @createAuthor fangxilin
+	 * @param query
+	 * @param size
+	 * @return
+	 */
+	@RequestMapping("/searchByPinyin")
+	@ResponseBody
+	public ReturnMsg searchByPinyin(@RequestParam String query, 
 			@RequestParam int size) {
-		
-	}*/
+		try {
+			query = PinyinAPI.split(query);
+			List<PinyinChinese> data = pinyinChineseService.listByPinyin(query, size);
+			return new ReturnMsg(ReturnMsg.SUCCESS, "拼音模糊查询成功", data);
+		} catch (Exception e) {
+			log.error("拼音模糊查询异常");
+			e.printStackTrace();
+			return new ReturnMsg(ReturnMsg.FAIL, "拼音模糊查询异常", new ArrayList<>());
+		}
+	}
 }

@@ -15,7 +15,7 @@ public class PinyinAPI {
 	
 	/** 分词正则表达式 */  
     public final static String regEx  = "[^aoeiuv]?h?[iuv]?(ai|ei|ao|ou|er|ang?|eng?|ong|a|o|e|i|u|ng|n)?";
-	
+    
 	/**
 	 * 字符串字符简写字母，eg：你好，转换后为：NH
 	 * @param str
@@ -108,7 +108,7 @@ public class PinyinAPI {
         for (int i = input.length(); i > 0; i = i - tag) {  
             Pattern pat = Pattern.compile(regEx);  
             Matcher matcher = pat.matcher(input);  
-            //boolean rs = matcher.find();  
+            boolean rs = matcher.find();  
             sb.append(matcher.group());  
             sb.append("\'");  
             tag = matcher.end() - matcher.start();  
@@ -156,7 +156,7 @@ public class PinyinAPI {
 		/*String ss = getAllPinYin("荆溪白石出，Hello 天寒红叶稀。Android 山路元无雨，What's up? 空翠湿人衣。", 3);
 		System.out.println(ss);*/
 		
-		String ss = "tds";
+		String ss = "fangan";
 		System.out.println(split(ss));
 	}
 }

@@ -18,5 +18,10 @@
 		from pinyin_chinese
 		where id = #{id,jdbcType=INTEGER}
 	</select>
-	
+	<!-- 模糊查询 -->
+	<select id="listByPinyin" resultMap="BaseResultMap">
+		select id, chinese from pinyin_chinese 
+		where py_header like CONCAT(#{query},"%") 
+		or pinyin like CONCAT(#{query},"%") ORDER BY word_num asc limit #{size}
+	</select>
 </mapper>

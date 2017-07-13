@@ -24,8 +24,6 @@ public class PinyinChineseServiceImpl extends BaseServiceImpl<PinyinChinese> imp
 
 	@Override
 	public List<PinyinChinese> listByPinyin(String query, int size) {
-		// TODO Auto-generated method stub
-		return null;
+		return pinyinChineseMapper.listByPinyin(query, size);
 	}
-
 }

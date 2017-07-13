@@ -64,6 +64,9 @@
 	    <property name="connectionProperties">
 	      <value>${jdbc_connectionProperties}</value>
 	    </property>
+	    
+	    <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->  
+    	<property name="filters" value="stat,wall"/>  
     </bean>
      
      <!-- 配置MyBatis，将spring和mybatis整合 -->
