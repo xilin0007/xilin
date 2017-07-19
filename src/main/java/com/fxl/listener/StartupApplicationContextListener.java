@@ -33,6 +33,8 @@ public class StartupApplicationContextListener implements ServletContextListener
 			resource = resource.replace("\\", "/");
 			config.load(new FileInputStream(new File(resource+"/conf/config.properties")));
 			Consts.BASE_URL = config.getProperty("BASE_URL");
+			Consts.BASE_FILE_URL = config.getProperty("BASE_FILE_URL");
+			Consts.COMMON_URL = config.getProperty("COMMON_URL");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -10,22 +10,19 @@ package com.fxl.frame.util;
  */
 public class Consts {
 	
-	//项目URL
+	/**项目URL*/
 	public static String BASE_URL = "";
-
-	//MSC项目URL
-	public static String MCS_URL = "";
 	
-	//保健号返回用户信息路径
-	public static String MCS_NUM_PATH = "/health/getInfo.do";
+	/**本文件上传路径*/
+	public final static String UPLOAD_PATH = "/fastdfs/uploadFile";
 
-	//图片服务器URL
+	/**图片服务器URL*/
 	public static String BASE_FILE_URL = "";
 	
-	//食材图片路径
-	public static String FOOD_FILE_PATH = "/img/food/";
+	/**common项目*/
+	public static String COMMON_URL = "";
 	
-	//食谱图片路径
-	public static String RECIPES_FILE_PATH = "/img/caipu/";
+	/**common项目--文件上传路径*/
+	public final static String FILE_UPLOAD_PATH = "/file/upload_file";
 	
 }

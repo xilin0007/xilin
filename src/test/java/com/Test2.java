@@ -30,8 +30,8 @@ public class Test2 {
 		String decode = GenerateQRCode.decode(filePath);
 		System.out.println(decode);*/
 		
-		String url = "http://192.168.0.2:8080/nutritionV2/sport/listSportsByName";
-		/*Map<String, Object> params = new HashMap<String, Object>();
+		/*String url = "http://192.168.0.2:8080/nutritionV2/sport/listSportsByName";
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("query", "步");
 		HttpClient httpClient = new HttpClient(url, params);
 		String ret = "";

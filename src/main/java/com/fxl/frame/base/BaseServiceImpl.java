@@ -2,12 +2,17 @@ package com.fxl.frame.base;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fxl.exception.ServiceException;
 import com.fxl.log.LogTool;
 
 public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
 	protected LogTool log = LogTool.getInstance(new Object[]{this.getClass()});
+	
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	protected abstract BaseMapper<T> getDao();
 	

@@ -20,6 +20,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.log4j.Logger;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.mp3.MP3AudioHeader;
+import org.jaudiotagger.audio.mp3.MP3File;
 
 public class FileToolUtils {
 	
@@ -388,5 +391,37 @@ public class FileToolUtils {
 		return formatter.format(new Date());
 	}
     
+    /**
+	 * 获取MP3文件时长
+	 * @param file mp3文件路径
+	 * @param durationFormat 时长格式 1：分:秒  2：时:分:秒
+	 * @return
+	 */
+	public static String getDurationLength(File file, int durationFormat) {
+		try {
+			MP3File f = (MP3File)AudioFileIO.read(file);
+			
+			MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();
+			//mp3时长
+			int seconds = audioHeader.getTrackLength();
+			int temp=0;
+			StringBuffer sb=new StringBuffer();
+			if(durationFormat == 2) {
+				//时
+				temp = seconds/3600;
+				sb.append((temp<10)?"0"+temp+":":""+temp+":");
+			}
+			//分
+			temp=seconds%3600/60;
+			sb.append((temp<10)?"0"+temp+":":""+temp+":");
+			//秒
+			temp=seconds%3600%60;
+			sb.append((temp<10)?"0"+temp:""+temp);
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
     
 }
