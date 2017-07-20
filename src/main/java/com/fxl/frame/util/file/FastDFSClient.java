@@ -2,6 +2,8 @@ package com.fxl.frame.util.file;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -92,8 +94,17 @@ public class FastDFSClient {
      * @param fileName 文件名
      * @return
      */
-    public static String uploadFile(File file, String fileName) {
-        return uploadFile(file,fileName,null);
+    public static String uploadFile(File file, String fileName, Map<String,String> metaList) {
+    	InputStream inStream = null;
+    	try {
+			inStream = new FileInputStream(file);
+			return uploadFile(inStream, fileName, metaList);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+        	IOUtils.closeQuietly(inStream);
+        }
+    	return null;
     }
     /**
      * 上传文件
@@ -102,10 +113,8 @@ public class FastDFSClient {
      * @param metaList 文件元数据
      * @return
      */
-    public static String uploadFile(File file, String fileName, Map<String,String> metaList) {
-    	InputStream inStream = null;
+    public static String uploadFile(InputStream inStream, String fileName, Map<String,String> metaList) {
         try {
-        	inStream = new FileInputStream(file);
             byte[] buff = IOUtils.toByteArray(inStream);
             NameValuePair[] nameValuePairs = null;
             if (metaList != null) {
@@ -124,7 +133,6 @@ public class FastDFSClient {
             e.printStackTrace();
         } finally {
         	IOUtils.closeQuietly(inStream);
-        	file.delete();
         }
         return null;
     }
@@ -134,7 +142,7 @@ public class FastDFSClient {
      * @param fileId 文件ID
      * @return
      */
-    public static Map<String,String> getFileMetadata(String fileId) {
+    public static Map<String, String> getFileMetadata(String fileId) {
         try {
             NameValuePair[] metaList = storageClient1.get_metadata1(fileId);
             if (metaList != null) {
@@ -170,12 +178,13 @@ public class FastDFSClient {
      * @param outFile 文件下载保存位置
      * @return
      */
-    /*public static int downloadFile(String fileId, File outFile) {
+    public static int downloadFile(String fileId, File outFile) {
         FileOutputStream fos = null;
         try {
             byte[] content = storageClient1.download_file1(fileId);
             fos = new FileOutputStream(outFile);
-            IOUtils.copy(content,fos);
+            //IOUtils.copy(content,fos);
+            IOUtils.write(content, fos);
             return 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -189,7 +198,7 @@ public class FastDFSClient {
             }
         }
         return -1;
-    }*/
+    }
     
     public static String getConfigPath() {
 		try {
@@ -203,12 +212,35 @@ public class FastDFSClient {
 	}
 
 	public static void main(String[] args) {
-		File file = new File("G:\\media\\Pictures\\1.jpg");
-		String fileName = "1.jpg";
-		/*String uploadFile = uploadFile(file, fileName);
-		System.out.println(uploadFile);*/
-		System.out.println(file.getName());
 		
+		//上传文件测试
+		/*File file = new File("G:\\media\\Pictures\\1.jpg");
+		String fileName = "1.jpg";
+		Map<String,String> metaList = new HashMap<String, String>();
+        metaList.put("width","1024");
+        metaList.put("height","768");
+        metaList.put("author","fxl");
+        metaList.put("date","20170720");
+		String uploadFile = uploadFile(file, fileName, metaList);
+		System.out.println(uploadFile);*/
+		
+		//下载文件测试
+		//String fileId = "group1/M00/05/90/wKgCQ1lwFrSAGUkEAADjuAoTie0647.jpg";
+		String fileId = "group1/M00/05/91/wKgCQ1lwJwyACp6zAAAxwEOSM7g190.jpg";
+		String path = "F:\\temp\\xxx.jpg";
+		File outFile = new File(path);
+		downloadFile(fileId, outFile);
+		System.out.println("下载成功！");
+		
+		//获取文件元数据测试
+		/*String fileId = "group1/M00/05/91/wKgCQ1lwJwyACp6zAAAxwEOSM7g190.jpg";
+		Map<String,String> metaList = getFileMetadata(fileId);
+        for (Iterator<Map.Entry<String,String>>  iterator = metaList.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry<String,String> entry = iterator.next();
+            String name = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(name + " = " + value );
+        }*/
 	}
 
 }

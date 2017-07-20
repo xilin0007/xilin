@@ -26,15 +26,15 @@ public class FastdfsController extends BaseController {
 	private FileBaseDataService fileBaseDataService;
 	
 	/**
-	 * 单文件上传
+	 * 单文件上传--转化成文件形式上传
 	 * @createTime 2017-7-19,下午6:18:27
 	 * @createAuthor fangxilin
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/uploadFile")
+	@RequestMapping(method = RequestMethod.POST, value = "/V1.0/uploadFile")
 	@ApiOperation(value = "单文件上传", httpMethod = "POST", response = ReturnMsg.class, notes = "单文件上传", position = 1)
-	public ReturnMsg uploadFile(@RequestParam(value = "file", required = false) MultipartFile file){
+	public ReturnMsg uploadFileV1(@RequestParam(value = "file", required = false) MultipartFile file){
 		try {
 			String basePath = getRequest().getSession().getServletContext().getRealPath("upload") + "/";
 			FileToolUtils.mkdir(basePath);
@@ -44,6 +44,26 @@ public class FastdfsController extends BaseController {
 			file.transferTo(localFile);
 			ReturnMsg ret = fileBaseDataService.uploadFile(localFile);
 			return ret;
+		} catch (Exception e) {
+			log.error("单上传文件异常");
+			e.printStackTrace();
+			return new ReturnMsg(ReturnMsg.FAIL, "单文件上传异常", new ArrayList<>());
+		}
+	}
+	
+	/**
+	 * 单文件上传--获取流形式上传
+	 * @createTime 2017-7-19,下午6:18:27
+	 * @createAuthor fangxilin
+	 * @param file
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/uploadFile")
+	@ApiOperation(value = "单文件上传", httpMethod = "POST", response = ReturnMsg.class, notes = "单文件上传", position = 1)
+	public ReturnMsg uploadFile(@RequestParam(value = "file", required = false) MultipartFile file){
+		try {
+			logger.info("-----------要上传的文件名：" + file.getOriginalFilename());
+			return fileBaseDataService.uploadFile(file);
 		} catch (Exception e) {
 			log.error("单上传文件异常");
 			e.printStackTrace();
