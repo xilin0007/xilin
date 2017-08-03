@@ -27,6 +27,8 @@ public class CommonInterceptor implements HandlerInterceptor {
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		//解决session跨域失效的问题
+		//response.setHeader("P3P","CP=CAO PSA OUR");
 		//请求参数
 		String requestParam = "";
 		//以拼接形式获取地址参数

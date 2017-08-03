@@ -2,9 +2,12 @@ package com;
 
 import java.io.IOException;
 
+import com.fxl.frame.util.FunctionUtils;
 
 
-public class Test2 {
+
+
+public class Test1 {
 	
 	public static void main(String[] args) throws IOException {
 		/*Map<String, Object> param = new HashMap<String, Object>();
@@ -42,6 +45,13 @@ public class Test2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+		/*String html = StringEscapeUtils.escapeHtml("<a>dddd</a>");
+		System.out.println(html);
+		
+		String str = StringEscapeUtils.escapeJava("中国");
+		System.out.println(str);*/
+		double bmi = FunctionUtils.getBMI(170, 57);
+		System.out.println(bmi);
 	}
-
+	
 }
