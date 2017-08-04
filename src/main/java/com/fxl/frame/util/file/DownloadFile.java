@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.file;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

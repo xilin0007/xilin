@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
-import com.fxl.frame.util.FileToolUtils;
+import com.fxl.frame.util.file.FileToolUtils;
 import com.fxl.template.file.service.FileBaseDataService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;

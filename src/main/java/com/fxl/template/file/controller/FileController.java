@@ -19,8 +19,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
 import com.fxl.frame.util.Consts;
-import com.fxl.frame.util.FileToolUtils;
-import com.fxl.frame.util.UploadUtils;
+import com.fxl.frame.util.file.FileToolUtils;
+import com.fxl.frame.util.file.UploadUtils;
 
 /**
  * 文件上传

@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.file;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

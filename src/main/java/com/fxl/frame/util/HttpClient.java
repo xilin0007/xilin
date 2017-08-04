@@ -14,6 +14,8 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
+import com.fxl.frame.util.file.FileUtils;
+
 
 /**
  * http请求工具类

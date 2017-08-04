@@ -1,24 +1,23 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.file;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -42,20 +41,20 @@ public class UploadUtils {
 	 */
 	public static ReturnMsg sendMultyPartRequest(String path, HashMap<String, String> params, HashMap<String, File> files) {
 		ReturnMsg ret = new ReturnMsg(0, "文件上传失败");
-		HttpClient httpClient = new DefaultHttpClient();
+		//HttpClient httpClient = new DefaultHttpClient();
+		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(path);
-		MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+		//MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);//设置浏览器兼容模式
 		if (params.size() > 0) {
 			Set<String> paramKeys = params.keySet();
 			Iterator<String> paramIterator = paramKeys.iterator();
 			while (paramIterator.hasNext()) {
 				String key = paramIterator.next();
-				try {
-					StringBody stringBody = new StringBody(params.get(key), Charset.forName(HTTP.UTF_8));
-					multipartEntity.addPart(key, stringBody);
-				} catch (UnsupportedEncodingException e) {
-					return ret;
-				}
+				//StringBody stringBody = new StringBody(params.get(key), Charset.forName(HTTP.UTF_8));
+				StringBody stringBody = new StringBody(params.get(key), ContentType.TEXT_PLAIN);
+				builder.addPart(key, stringBody);
 			}
 		}
 		if (files.size() > 0) {
@@ -64,10 +63,11 @@ public class UploadUtils {
 			while (fileIterator.hasNext()) {
 				String key = fileIterator.next();
 				FileBody fileBody = new FileBody(files.get(key));
-				multipartEntity.addPart(key, fileBody);
+				builder.addPart(key, fileBody);
 			}
 		}
-		httpPost.setEntity(multipartEntity);
+		HttpEntity entity = builder.build();// 生成 HTTP POST 实体  
+		httpPost.setEntity(entity);
 
 		try {
 			HttpResponse response = httpClient.execute(httpPost);
@@ -80,12 +80,13 @@ public class UploadUtils {
 			}
 		} catch (Exception e) {
 			log.error(UploadUtils.class, e);
-			// e.printStackTrace();
 		} finally {
 			try {
-				multipartEntity.consumeContent();
-				multipartEntity = null;
+				//multipartEntity.consumeContent();
+				//multipartEntity = null;
+				EntityUtils.consume(entity);
 				httpPost.abort();
+				httpPost.releaseConnection();
 			} catch (UnsupportedOperationException e) {
 				log.error(UploadUtils.class, e);
 				// e.printStackTrace();
