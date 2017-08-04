@@ -64,6 +64,9 @@
 	    <property name="connectionProperties">
 	      <value>${jdbc_connectionProperties}</value>
 	    </property>
+	    
+	    <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->  
+    	<property name="filters" value="stat,wall"/>  
     </bean>
      
      <!-- 配置MyBatis，将spring和mybatis整合 -->
@@ -72,25 +75,28 @@
 		<property name="configLocation" value="classpath:conf/mybatis-config.xml"></property>
 		<!-- 加载mapper文件 -->
 		<property name="mapperLocations" value="classpath:mapper/**/*.xml"></property>
-		
-		<property name="plugins">
+		<!-- PageHelper分页 -->
+		<!-- <property name="plugins">
 			<array>
 				<bean class="com.github.pagehelper.PageHelper">
 					<property name="properties">
-						<!-- 属性一行一个，具体属性参考mybatis-config.xml中的属性 -->
+						属性一行一个，具体属性参考mybatis-config.xml中的属性
 						<value>
-							<!-- 该参数默认为false -->
-							<!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
-							<!-- 和startPage中的pageNum效果一样 -->
+							helperDialect=mysql
+							该参数默认为false
+							设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用
+							和startPage中的pageNum效果一样
 							offsetAsPageNum=true
-							<!-- 该参数默认为false -->
-							<!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+							该参数默认为false
+							设置为true时，使用RowBounds分页会进行count查询
 							rowBoundsWithCount=true
+							分页合理化
+							reasonable=false
 						</value>
 					</property>
 				</bean>
 			</array>
-		</property>
+		</property> -->
 	</bean>
 	
 	<!-- mybatis自动映射 -->
@@ -113,7 +119,9 @@
 			<tx:method name="get*" read-only="true" />
 			<tx:method name="find*" read-only="true" />
 			<tx:method name="query*" read-only="true" />
+			<tx:method name="list*" read-only="true" />
 			<tx:method name="is*" read-only="true" />
+			<!-- java.lang.RuntimeException -->
 			<!-- <tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Throwable" /> -->
 			<tx:method name="*" propagation="REQUIRED" rollback-for="com.fxl.exception.ServiceException" />
 		</tx:attributes>
@@ -126,6 +134,6 @@
 	</aop:config>
 	
 	<!-- 开启AOP监听 只对当前配置文件有效，启用对事务注解的支持 -->
-	<!-- <aop:aspectj-autoproxy expose-proxy="true" /> -->
+	<aop:aspectj-autoproxy expose-proxy="true" />
      
 </beans>
