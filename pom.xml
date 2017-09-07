@@ -446,11 +446,17 @@
 		    <artifactId>jaudiotagger</artifactId>
 		    <version>2.0.3</version>
 		</dependency>
-		
+		<!-- fastdfs -->
 		<dependency>
 			<groupId>org.csource</groupId>
 			<artifactId>fastdfs-client-java</artifactId>
 			<version>1.27-SNAPSHOT</version>
+		</dependency>
+		<!-- gzip压缩 -->
+		<dependency>
+			<groupId>com.tacitknowledge</groupId>
+			<artifactId>tk-filters</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 	

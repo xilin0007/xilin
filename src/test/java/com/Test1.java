@@ -1,8 +1,8 @@
 package com;
 
+import java.awt.Color;
 import java.io.IOException;
-
-import com.fxl.frame.util.FunctionUtils;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 
@@ -50,8 +50,75 @@ public class Test1 {
 		
 		String str = StringEscapeUtils.escapeJava("中国");
 		System.out.println(str);*/
-		double bmi = FunctionUtils.getBMI(170, 57);
-		System.out.println(bmi);
+		
+		/*Map<String, Object> map = new HashMap<String, Object>();
+		map.put("one", "cc");
+		String str = "cc";
+		int hashCode = map.hashCode();
+		System.out.println("map：" + hashCode);
+		System.out.println("map中cc：" + map.get("one").hashCode());
+		System.out.println("str：" + str.hashCode());*/
+		
+		/*EnumMap<AppIdEnums, Object> enumMap = new EnumMap<>(AppIdEnums.class);
+		enumMap.put(AppIdEnums.TS, "天使");*/
+		
+		/*Map<String, Object> map = new HashMap<String, Object>();
+		map.put("one", "aa");
+		map.put("two", "bb");
+		Set<String> keys = map.keySet();
+		System.out.println("之前：" + keys.toString());
+		keys.remove("one");
+		//keys.add("three");
+		System.out.println("之后：" + map.keySet().toString());*/
+		
+		/*ColorPoint a = new ColorPoint(1, 2, Color.RED);
+		Point b = new Point(1, 2);
+		ColorPoint c = new ColorPoint(1, 2, Color.BLUE);
+		System.out.println(b.equals(a));*/
+		
+		AtomicInteger counter = new AtomicInteger();
+		counter.incrementAndGet();
+		System.out.println(counter.get());
+		
 	}
 	
+}
+
+class Point implements Cloneable {
+	private final int x;
+	private final int y;
+	public Point(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Point)) {
+			return false;
+		}
+		Point p = (Point) obj;
+		return p.x == x && p.y == y;
+	}
+	
+}
+class ColorPoint extends Point {
+	private final Color color;
+	
+	public ColorPoint(int x, int y, Color color) {
+		super(x, y);
+		this.color = color;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Point)) {
+			return false;
+		}
+		if (!(obj instanceof ColorPoint)) {
+			return obj.equals(this);
+		}
+		//ColorPoint c = (ColorPoint) obj;
+		return super.equals(obj) && ((ColorPoint) obj).color == color;
+	}
 }
