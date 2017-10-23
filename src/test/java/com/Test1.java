@@ -1,15 +1,13 @@
 package com;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 
 
 public class Test1 {
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		/*Map<String, Object> param = new HashMap<String, Object>();
 		param.put("id", 1);
 		param.put("name", null);
@@ -76,9 +74,9 @@ public class Test1 {
 		ColorPoint c = new ColorPoint(1, 2, Color.BLUE);
 		System.out.println(b.equals(a));*/
 		
-		AtomicInteger counter = new AtomicInteger();
+		/*AtomicInteger counter = new AtomicInteger();
 		counter.incrementAndGet();
-		System.out.println(counter.get());
+		System.out.println(counter.get());*/
 		
 	}
 	
@@ -109,7 +107,7 @@ class ColorPoint extends Point {
 		super(x, y);
 		this.color = color;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Point)) {
@@ -122,3 +120,4 @@ class ColorPoint extends Point {
 		return super.equals(obj) && ((ColorPoint) obj).color == color;
 	}
 }
+

@@ -1,0 +1,4 @@
+
+泛型：
+PECS表示producer-extends, consumer-super
+如果参数化类型T表示生产者，使用<? extends T>；表示消费者，使用<? super T>

@@ -13,7 +13,7 @@ public class ListSort<E> {
      *  
      * @param list 要排序的集合 
      * @param method 要排序的实体的属性所对应的get方法 
-     * @param sort desc 为正序   
+     * @param sort desc 为倒序   
      */  
     public void Sort(List<E> list, final String method, final String sort) {  
         // 用内部类实现排序  
@@ -28,7 +28,7 @@ public class ListSort<E> {
                     Method m2 = b.getClass().getMethod(method, null);  
                       
                     if (sort != null && "desc".equals(sort)) {  
-                        ret = m2.invoke((b), null).toString().compareTo(m1.invoke((a),null).toString());  
+                        ret = m2.invoke((b), null).toString().compareTo(m1.invoke((a), null).toString());  
                     } else {  
                         // 正序排序  
                         ret = m1.invoke((a), null).toString().compareTo(m2.invoke((b), null).toString());  

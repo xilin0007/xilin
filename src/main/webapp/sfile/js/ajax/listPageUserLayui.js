@@ -45,22 +45,22 @@ function initPage(data) {
 		layui.laypage({
 			cont : "page",
 			pages : totalPage,
-			curr : data.page,
+			curr : data.pageNum,
 			skip : true,
-			jump : function(obj) {
+			jump : function(pobj) {
 				//得到了当前页，用于向服务端请求对应数据
-				curr = obj.curr;
+				curr = pobj.curr;
 				data.pageNum = curr;
 				//跳转到某页，并初始化分页数据
 				init(data);
 				var html = "";
 				for (var int = 0; int < list.length; int++) {
-					var ls = list[int];
+					var obj = list[int];
 					html += 
 						'<tr>' +
-							'<td>' + ls.nickName + '</td>' +
-							'<td>' + ls.mobile + '</td>' +
-							'<td>' + ls.regTime + '</td>' +
+							'<td>' + obj.nickName + '</td>' +
+							'<td>' + obj.mobile + '</td>' +
+							'<td>' + obj.regTime + '</td>' +
 						'</tr>';
 				}
 				$("#pageList").html(html);

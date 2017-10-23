@@ -18,7 +18,7 @@
 <body>
 	<div>
 		图片文件
-		<input type="hidden" id="imgUrl" class="orangeUploder" />
+		<input type="hidden" id="imgUrl" class="orangeUploder" value=""/><!-- value为初始时图片的路径 -->
 	</div>
 </body>
 <jsp:include page="common/foot.jsp"></jsp:include>

@@ -1,9 +1,5 @@
 package com;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 public class Test {
 	public static void main(String[] args) {
 		/*String property = System.getProperty("java.io.tmpdir");
@@ -13,56 +9,38 @@ public class Test {
 		int i = 0;
 		System.out.println(ss[i++]);*/
 		
-//		System.out.println(ConsultStatusEnums.getStatusName(5));
+		//静态导入
+		//String version = VERSION;
 		
-		List<VoTest> list = new ArrayList<VoTest>();
-		List<Integer> ids = new ArrayList<Integer>(); 
-		VoTest vo1 = new VoTest(1, "aaa");
-		VoTest vo2 = new VoTest(2, "bbb");
-		VoTest vo3 = new VoTest(3, "ccc");
-		list.add(vo1);list.add(vo2);list.add(vo3);
+		TestException.method1();
 		
-		List<VoTest> listTemp = new ArrayList<VoTest>();
-		VoTest votest = new VoTest();
-		int a = 0;
-		for (VoTest vo : list) {
-//			votest.setId(vo.getId());
-//			votest.setName(vo.getName());
-			votest = vo;
-			listTemp.add(votest);
-//			ids.add(votest.getId());
-			a = vo.getId();
-			ids.add(a);
-		}
-		System.out.println(listTemp.toString());
-		System.out.println(ids.toString());
 		
 	}
 }
 
-class VoTest {
-	private int id;
-	private String name;
-	public int getId() {
-		return id;
+class TestException {
+	
+	public static void method1() {
+		int num1 = 5;
+		int x = 0, y = 1;
+		try {
+			y = 2;
+			x = num1 / 0;
+		} catch (Exception e) {
+			throw e;
+		}
+		x++;
+		System.out.println(y);
 	}
-	public void setId(int id) {
-		this.id = id;
+	
+	public static void method2() {
+		int[] arr1 = {4, 5, 6};
+		int[] arr2 = {7};
+		for (int i : arr1) {
+			System.out.println("arr1:" + i);
+			int arr2Value = arr2[i];
+			System.out.println("arr2:" + arr2Value);
+		}
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public VoTest() {
-	}
-	public VoTest(int id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-	@Override
-	public String toString() {
-		return "VoTest [id=" + id + ", name=" + name + "]";
-	}
+	
 }

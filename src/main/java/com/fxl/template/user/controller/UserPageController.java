@@ -217,7 +217,7 @@ public class UserPageController extends BaseController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/generateQRCode")
-	public void generateQRCode(HttpServletResponse response) throws IOException {
+	public void generateQRCode(HttpServletResponse response) throws Exception {
 		//设置页面不缓存  
         response.setHeader("Pragma", "no-cache");  
         response.setHeader("Cache-Control", "no-cache");  

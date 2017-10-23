@@ -11,19 +11,6 @@ public enum ConsultStatusEnums {
 	
 	private int value;
 	private String name;
-	
-	public int getValue() {
-		return value;
-	}
-	public void setValue(int value) {
-		this.value = value;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	private ConsultStatusEnums(int value, String name) {
 		this.value = value;
@@ -34,8 +21,8 @@ public enum ConsultStatusEnums {
 		ConsultStatusEnums[] statusEnums = ConsultStatusEnums.values();
 		String statusName = "";
 		for (ConsultStatusEnums status : statusEnums) {
-			if (status.getValue() == statusValue) {
-				statusName = status.getName();
+			if (status.value == statusValue) {
+				statusName = status.name;
 				break;
 			}
 		}

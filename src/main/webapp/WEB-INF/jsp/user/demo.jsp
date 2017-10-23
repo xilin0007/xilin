@@ -16,6 +16,7 @@
 </head>
 
 <body>
+	
 	<p>    
 		<label>自动提示:</label>    
 		<input type="text" id="tags" />
