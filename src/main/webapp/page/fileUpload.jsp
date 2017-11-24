@@ -15,6 +15,7 @@
 	
 </head>
 
+<!-- 如果是通过onChange事件上传的，文件上传成功后，为解决onchang相同文件不发送bug, newDom需要替换oldDom $(".divclass").html("<input type="file"...onchange=''>");-->
 <body>
 	<div>
 		图片文件
