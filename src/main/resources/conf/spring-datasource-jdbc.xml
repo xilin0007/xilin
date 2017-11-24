@@ -123,7 +123,8 @@
 			<tx:method name="is*" read-only="true" />
 			<!-- java.lang.RuntimeException -->
 			<!-- <tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Throwable" /> -->
-			<tx:method name="*" propagation="REQUIRED" rollback-for="com.fxl.exception.ServiceException" />
+			<!-- <tx:method name="*" propagation="REQUIRED" rollback-for="com.fxl.exception.ServiceException" /> -->
+			<tx:method name="*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
 	

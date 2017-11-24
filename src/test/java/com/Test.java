@@ -14,7 +14,6 @@ public class Test {
 		
 		TestException.method1();
 		
-		
 	}
 }
 

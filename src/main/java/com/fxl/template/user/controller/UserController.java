@@ -54,10 +54,10 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/testRallBack")
 	@ApiOperation(value = "测试事务回滚", httpMethod = "GET", response = ReturnMsg.class, notes = "测试事务回滚", position = 3)
-	public ReturnMsg testRallBack(@ApiParam(value = "用户ID1") @RequestParam int userId1,
-			@ApiParam(value = "用户ID2") @RequestParam int userId2) {
+	public ReturnMsg testRallBack(@ApiParam(value = "用户ID") @RequestParam int userId,
+			@ApiParam(value = "医院ID") @RequestParam int hospitalId) {
 		try {
-			boolean ret = userInfoService.updateFindRollBack(userId1, userId2);
+			boolean ret = userInfoService.updateFindRollBack(userId, hospitalId);
 			if(ret == false){
 				return new ReturnMsg(ReturnMsg.FAIL, "事务回滚功能", new ArrayList<>());
 			}

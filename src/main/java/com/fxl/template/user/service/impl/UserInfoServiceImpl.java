@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fxl.exception.ServiceException;
 import com.fxl.frame.base.BaseMapper;
 import com.fxl.frame.base.BaseServiceImpl;
+import com.fxl.template.hospital.entity.HospitalInfo;
+import com.fxl.template.hospital.mapper.HospitalInfoMapper;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.mapper.UserInfoMapper;
 import com.fxl.template.user.service.UserInfoService;
@@ -21,6 +22,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 	
 	@Autowired
 	private UserInfoMapper userInfoMapper;
+	@Autowired
+	private HospitalInfoMapper hospitalInfoMapper;
 	
 	@Override
 	protected BaseMapper<UserInfo> getDao() {
@@ -41,27 +44,26 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 	}
 
 	@Override
-	public boolean updateFindRollBack(int uId1, int uId2) throws ServiceException {
-		UserInfo u1 = new UserInfo();
-		u1.setNickName("rollBackName");
-		u1.setId(uId1);
-		try {
-			Integer ret = userInfoMapper.update(u1);
-			int a = 3 / 0;//模拟异常
-			return (ret > 0);
-		} catch (Exception e) {
-			log.error("异常，将进行回滚");
-			throw new ServiceException();
-		}
+	public boolean updateFindRollBack(int userId, int hospitalId) {
+		UserInfo user = new UserInfo();
+		user.setNickName("rollBackUser");
+		user.setId(userId);
+		HospitalInfo hosp = new HospitalInfo();
+		hosp.setId(hospitalId);
+		hosp.setName("rollBackHosp");
+		userInfoMapper.update(user);
+		hospitalInfoMapper.update(hosp);//错误代码，SQL语句错误，模拟事务
+		//int a = 3 / 0;//模拟异常
+		return true;
 	}
 
 	@Override
-	public List<UserInfo> findByNickName(String nickName, Integer size) throws ServiceException{
+	public List<UserInfo> findByNickName(String nickName, Integer size) {
 		return userInfoMapper.findByNickName(nickName, size);
 	}
 
 	@Override
-	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName) throws ServiceException {
+	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName) {
 		PageHelper.startPage(page.getPageNum(), page.getPageSize());
 		List<UserInfo> list = userInfoMapper.findByPage(nickName);
 		PageInfo<UserInfo> pages = new PageInfo<UserInfo>(list);
