@@ -43,7 +43,9 @@
 	</br>
 	
 	<p>日期插件</p>
-	<input id="birthday" readonly="readonly">
+	<input id="birthday" readonly="readonly"></br></br>
+	
+	<p><a href="${pageContext.request.contextPath}/userPage/downPDF?tabName=医生结算表导出">导出pdf</a></p></br>
 	
 </body>
 <jsp:include page="/WEB-INF/jsp/common/foot.jsp"></jsp:include>

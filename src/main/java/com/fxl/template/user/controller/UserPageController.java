@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -34,6 +36,7 @@ import com.fxl.frame.util.SessionUtils;
 import com.fxl.frame.util.file.DownloadFile;
 import com.fxl.template.user.entity.PinyinChinese;
 import com.fxl.template.user.entity.UserInfo;
+import com.fxl.template.user.pdf.GenerateCourseListPDF;
 import com.fxl.template.user.service.PinyinChineseService;
 import com.fxl.template.user.service.UserInfoService;
 import com.github.pagehelper.Page;
@@ -253,6 +256,45 @@ public class UserPageController extends BaseController {
 			log.error("拼音模糊查询异常");
 			e.printStackTrace();
 			return new ReturnMsg(ReturnMsg.FAIL, "拼音模糊查询异常", new ArrayList<>());
+		}
+	}
+	
+	/**
+	 * @Description 导出pdf
+	 * @createTime 2017年11月28日,下午3:11:05
+	 * @createAuthor fangxilin
+	 * @param request
+	 * @param response
+	 * @param tabName
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/downPDF")
+	public void downPDF(HttpServletRequest request, HttpServletResponse response, String tabName) throws Exception {
+		String filePath = GenerateCourseListPDF.generatePDF(tabName);
+		if (filePath != null && filePath.length() != 0) {
+			response.setContentType("multipart/form-data");
+			response.setHeader("Content-Disposition", "attachment;fileName=" + new String(tabName.getBytes("gb2312"), "iso-8859-1") + ".pdf");
+			ServletOutputStream out = null;
+			InputStream inputStream = null;
+			try {
+				File file = new File(filePath);
+				inputStream = new FileInputStream(file);
+				out = response.getOutputStream();
+				int byteread = 0;
+				byte[] buffer = new byte[1024];
+				while ((byteread = inputStream.read(buffer)) != -1) {
+					out.write(buffer, 0, byteread);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(inputStream, out);
+				/** 最后将临时文件删除 **/
+				File file = new File(filePath);
+				if (file.exists()) {
+					file.delete();
+				}
+			}
 		}
 	}
 }
