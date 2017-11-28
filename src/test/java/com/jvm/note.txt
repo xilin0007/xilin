@@ -1,0 +1,10 @@
+
+java堆线程共享的，java栈线程私有的
+
+内存溢出和内存泄漏：
+	内存溢出 out of memory，是指程序在申请内存时，没有足够的内存空间供其使用
+	内存泄露 memory leak，是指程序在申请内存后，无法释放已申请的内存空间，最终会导致out of memory
+	
+虚拟机栈溢出：
+	如果线程请求的栈深度大于虚拟机所允许的最大深度，抛StackOverflowError异常
+	如果虚拟器扩展时无法申请足够的内存空间，抛OutOfMemoryError异常
