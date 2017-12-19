@@ -112,6 +112,19 @@ public class TimeUtils {
 		}
 	}
 	
+	public static String timestampToString(Long timestamp, String formatStr) {
+		if (timestamp == null) {
+			return null;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(formatStr);
+		try {
+			return sdf.format(timestamp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	/**
 	 * 获取当前时间往后多少天
 	 * @param day

@@ -458,6 +458,12 @@
 			<artifactId>tk-filters</artifactId>
 			<version>1.0.1</version>
 		</dependency>
+		<!-- itextpdf -->
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itextpdf</artifactId>
+		    <version>5.5.12</version>
+		</dependency>
 	</dependencies>
 	
 	<build>

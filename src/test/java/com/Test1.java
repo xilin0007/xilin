@@ -2,6 +2,9 @@ package com;
 
 import java.awt.Color;
 
+import com.fxl.frame.util.Const;
+import com.fxl.frame.util.TimeUtils;
+
 
 
 
@@ -77,12 +80,15 @@ public class Test1 {
 		/*AtomicInteger counter = new AtomicInteger();
 		counter.incrementAndGet();
 		System.out.println(counter.get());*/
+	    System.out.println("Format To String(Date):" + TimeUtils.timestampToString(1513612800000L, Const.YYYYMMDD_HHMMSS));
+		
 		
 	}
 	
 }
 
 class Point implements Cloneable {
+	
 	private final int x;
 	private final int y;
 	public Point(int x, int y) {
@@ -101,6 +107,7 @@ class Point implements Cloneable {
 	
 }
 class ColorPoint extends Point {
+	
 	private final Color color;
 	
 	public ColorPoint(int x, int y, Color color) {
