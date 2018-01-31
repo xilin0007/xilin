@@ -14,6 +14,27 @@ $.cookie('the_cookie', 'the_value', {expires: 7, path: '/', domain: 'jquery.com'
 $.cookie('the_cookie', 'the_value'); //新建cookie
 $.cookie('the_cookie', null); //删除一个cookie
 
+
+//在不支持localStorage的情况下会自动切换为cookie
+window.myStorage = (new (function() {
+
+	this.setItem = function(key, value) {
+		if (window.localStorage) {
+			localStorage.setItem(key, value);; //当localStorage存在，使用H5方式  
+		} else {
+			$.cookie(key, value);
+		}
+	};
+
+	this.getItem = function(key) {
+		if (window.localStorage) {
+			return localStorage.getItem(key); //当localStorage存在，使用H5方式  
+		} else {
+			return $.cookie(key);
+		}
+	};
+})());
+
 /**
  *
 	相关参数的解释

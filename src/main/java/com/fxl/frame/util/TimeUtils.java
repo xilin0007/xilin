@@ -255,6 +255,24 @@ public class TimeUtils {
 		}
 		return true;
 	}
+	
+	/**
+	 * 获取本周周x的时间，周一为第一天，周日为最后一天
+	 * @createTime 2018年1月15日,上午10:11:37
+	 * @createAuthor fangxilin
+	 * @param week 周一~周日：0-6
+	 * @return
+	 */
+	public static Date getDateByWeek(int week) {
+		Calendar cal = Calendar.getInstance();
+		int nowWeek = cal.get(Calendar.DAY_OF_WEEK);
+		if (nowWeek == Calendar.SUNDAY) {
+			nowWeek = 6;
+		} else {
+			nowWeek -= 2;
+		}
+		return getDateByDaysLate(week - nowWeek, cal.getTime());
+	}
 }
 	
 

@@ -80,7 +80,8 @@ public class Test1 {
 		/*AtomicInteger counter = new AtomicInteger();
 		counter.incrementAndGet();
 		System.out.println(counter.get());*/
-	    System.out.println("Format To String(Date):" + TimeUtils.timestampToString(1513612800000L, Const.YYYYMMDD_HHMMSS));
+		
+		System.out.println(TimeUtils.stringFormatToDate("2000-01-01 00:00:00", Const.YYYYMMDD_HHMMSS).getTime());
 		
 		
 	}
