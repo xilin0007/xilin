@@ -54,7 +54,7 @@ public interface UserInfoService extends BaseService<UserInfo> {
 	 * @param nickName
 	 * @return
 	 */
-	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName);
+	public PageInfo<UserInfo> listPageUser(Page<?> page, String nickName);
 	
 	/**
 	 * 返回分页列表

@@ -13,9 +13,10 @@ import com.fxl.frame.common.ReturnMsg;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.service.UserInfoService;
 import com.fxl.template.user.vo.VOUserPageList;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/user")

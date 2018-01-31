@@ -24,7 +24,9 @@
  	<mvc:default-servlet-handler/>
  	
  	<!-- 静态文件访问 -->
-	<mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger/"/>
+	<mvc:resources mapping="/swagger/**" location="/swagger/" />
+	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
+	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
 	
 	<!-- 3:配置视图解释类 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -101,7 +103,5 @@
 		<property name="maxUploadSize" value="10485760000"></property>
 		<property name="maxInMemorySize" value="40960"></property>
 	</bean>
-
-	<bean id="springSwaggerConfig" class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
 
 </beans>

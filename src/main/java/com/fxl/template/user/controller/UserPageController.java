@@ -89,7 +89,7 @@ public class UserPageController extends BaseController {
 	 * jsp分页
 	 */
 	@RequestMapping("/listPageUser")
-	public String listPageUser(ModelMap model, Page<UserInfo> page, String nickName) {
+	public String listPageUser(ModelMap model, Page<?> page, String nickName) {
 		try {
 			page.setPageSize(10);
 			PageInfo<UserInfo> pageInfo = userInfoService.listPageUser(page, nickName);

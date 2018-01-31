@@ -63,7 +63,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 	}
 
 	@Override
-	public PageInfo<UserInfo> listPageUser(Page<UserInfo> page, String nickName) {
+	public PageInfo<UserInfo> listPageUser(Page<?> page, String nickName) {
 		PageHelper.startPage(page.getPageNum(), page.getPageSize());
 		List<UserInfo> list = userInfoMapper.findByPage(nickName);
 		PageInfo<UserInfo> pages = new PageInfo<UserInfo>(list);
