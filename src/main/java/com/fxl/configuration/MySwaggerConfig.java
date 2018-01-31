@@ -22,7 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * 在spring-mvc中配置swagger文件夹自动过滤。
  * <mvc:resources mapping="/swagger/**" location="/swagger/" cache-period="31556926" />
  */
-@Configuration
+@Configuration //相当于把该类作为spring的xml配置文件中的<beans>，作用为：配置spring容器(应用上下文
 @EnableSwagger2
 @EnableWebMvc //启用Spring MVC组件
 //com.fxl.template.index.encyclopedia.controller
