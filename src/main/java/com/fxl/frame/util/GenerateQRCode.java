@@ -57,9 +57,8 @@ public class GenerateQRCode {
         String format = "png";// 图像类型  
         Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();  
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");  
-        BitMatrix bitMatrix = null;
         // 生成矩阵  
-		bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
 		Path path = FileSystems.getDefault().getPath(filePath);
 		//MatrixToImageWriter.writeToStream(bitMatrix, format, outputStream);
 	    MatrixToImageWriter.writeToPath(bitMatrix, format, path);// 输出图像 
@@ -78,9 +77,8 @@ public class GenerateQRCode {
         String format = "png";// 图像类型  
         Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();  
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");  
-        BitMatrix bitMatrix = null;
 		// 生成矩阵  
-		bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
 		MatrixToImageWriter.writeToStream(bitMatrix, format, outputStream);
 
 	}
