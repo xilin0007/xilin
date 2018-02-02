@@ -55,6 +55,9 @@
 	        <mvc:exclude-mapping path="/**/*.gif"/>
 	        <mvc:exclude-mapping path="/**/*.jpg"/>
 	        <mvc:exclude-mapping path="/**/*.jpeg"/>
+	        <mvc:exclude-mapping path="/**/*.map"/>
+	        <mvc:exclude-mapping path="/**/*.woff2"/>
+	        <mvc:exclude-mapping path="/**/*.html"/>
 			<bean class="com.fxl.interceptor.CommonInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

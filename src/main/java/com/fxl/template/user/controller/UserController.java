@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
+import com.fxl.interceptor.LogRecordInfo;
 import com.fxl.template.user.entity.UserInfo;
 import com.fxl.template.user.service.UserInfoService;
 import com.fxl.template.user.vo.VOUserPageList;
@@ -25,12 +26,15 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserInfoService userInfoService;
 	
+	@LogRecordInfo(operate = "查询", module = "孕妇", content = "查询了孕妇信息")
 	@RequestMapping(method = RequestMethod.POST, value = "/findUsersById")
 	@ApiOperation(value = "获取用户信息", httpMethod = "POST", response = ReturnMsg.class, notes = "获取用户信息", position = 1)
 	public ReturnMsg findUsersById(@ApiParam(value = "用户id") @RequestParam int userId) {
 		try {
 			UserInfo user = userInfoService.findById(userId);
 			Object data = (user != null) ? user : new ArrayList<>();
+			//设置日志操作内容，便于拦截器获取并录入日志
+			getResponse().addHeader("logContent", user.getNickName());
 			return new ReturnMsg(ReturnMsg.SUCCESS, "获取用户信息成功", data);
 		} catch (Exception e) {
 			log.error("获取用户信息异常");

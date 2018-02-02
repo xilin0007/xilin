@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fxl.template.user.service.UserInfoService;
 
 /**
  * 公共拦截器，主要拦截参数
@@ -22,9 +26,15 @@ public class CommonInterceptor implements HandlerInterceptor {
 	
 	private final static Logger logger = Logger.getLogger(CommonInterceptor.class);
 	
+	@Autowired
+	private UserInfoService userInfoService;
+	
 	/**
-	 * 请求到控制器之前执行该方法
-	 */
+     * 该方法在目标方法之前被调用.
+     * 若返回值为 true, 则继续调用后续的拦截器和目标方法. 
+     * 若返回值为 false, 则不会再调用后续的拦截器和目标方法. 
+     * 可以考虑做权限. 日志, 事务等. 
+     */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		//解决session跨域失效的问题
@@ -49,14 +59,26 @@ public class CommonInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
+	/**
+     * 渲染视图之后被调用. 释放资源
+     */
 	@Override
-	public void afterCompletion(HttpServletRequest arg0,
-			HttpServletResponse arg1, Object arg2, Exception arg3)
-			throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void afterCompletion(HttpServletRequest request,	HttpServletResponse response, Object handler, Exception ex)	throws Exception {
+		//获取spring中HandlerMethod对象
+	    HandlerMethod method = (HandlerMethod) handler;
+	    if (method.hasMethodAnnotation(LogRecordInfo.class)) {
+	    	String content = response.getHeader("logContent");
+	    	LogRecordInfo logri = method.getMethodAnnotation(LogRecordInfo.class);
+	    	logger.info("动作：" +  logri.operate() + "，对象：" + logri.module() + "，对象内容：" + logri.content());
+	    	logger.info("header日志对象内容：" + content);
+	    	//可进行数据库日志的录入
+		}
 	}
 
+	/**
+     * 调用目标方法之后, 但渲染视图之前. 
+     * 可以对请求域中的属性或视图做出修改. 
+     */
 	@Override
 	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
 			Object arg2, ModelAndView arg3) throws Exception {
