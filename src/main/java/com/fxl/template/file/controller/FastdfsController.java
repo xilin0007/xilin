@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
-import com.fxl.frame.util.file.FileToolUtils;
+import com.fxl.frame.util.file.FileUtils;
 import com.fxl.template.file.service.FileBaseDataService;
 
 import io.swagger.annotations.Api;
@@ -38,7 +38,7 @@ public class FastdfsController extends BaseController {
 	public ReturnMsg uploadFileV1(@RequestParam(value = "file", required = false) MultipartFile file){
 		try {
 			String basePath = getRequest().getSession().getServletContext().getRealPath("upload") + "/";
-			FileToolUtils.mkdir(basePath);
+			FileUtils.mkdirs(basePath);
 			String path = basePath + file.getOriginalFilename();
 			logger.info("-----------要上传的文件路径：" + path);
 			File localFile = new File(path);

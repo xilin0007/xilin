@@ -19,7 +19,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
 import com.fxl.frame.util.Consts;
-import com.fxl.frame.util.file.FileToolUtils;
+import com.fxl.frame.util.file.FileUtils;
 import com.fxl.frame.util.file.UploadUtils;
 
 /**
@@ -128,7 +128,7 @@ public class FileController extends BaseController {
 		//如果文件后缀为mp3，则获取mp3播放时长
 		if(file.getName().indexOf("mp3")>0) {
 			//获取mp3时长
-			String duration = "#" + FileToolUtils.getDurationLength(file, 1) + "#";
+			String duration = "#" + FileUtils.getDurationLength(file, 1) + "#";
 			ret.setData(ret.getData() + duration);
 		}
 		file.delete();

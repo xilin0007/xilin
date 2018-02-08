@@ -1,5 +1,7 @@
 package com.fxl.frame.util.file;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -9,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -21,8 +24,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.mp3.MP3AudioHeader;
+import org.jaudiotagger.audio.mp3.MP3File;
 
 /**
  * 文件操作工具类
@@ -32,12 +41,15 @@ import org.apache.commons.io.IOUtils;
  *             All rights reserved.
  */
 public class FileUtils {
+	
+	private static final Logger log = Logger.getLogger(FileUtils.class);
+	
 	/**
 	 * 创建不存在的目录
 	 * @param dir
 	 * @return
 	 */
-	public static boolean mkNotExistsDirs(String dir) {
+	public static boolean mkdirs(String dir) {
 		File file = new File(dir);
 		if (!file.exists()) {
 			return file.mkdirs();
@@ -48,7 +60,7 @@ public class FileUtils {
 	/**
 	 * 创建父目录
 	 */
-	public static boolean mkNotExistsParentDirs(String path) {
+	public static boolean mkParentDirs(String path) {
 		File file = new File(path);
 		File pfile = file.getParentFile();
 		if (!pfile.exists()) {
@@ -56,10 +68,100 @@ public class FileUtils {
 		}
 		return false;
 	}
+	
+	
+	/**
+	 * 给指定文件写入内容（覆盖原有内容）
+	 * @param fileName 包含路径的文件名 如:E:\phsftp\src\123.txt
+	 * @param content 文件内容
+	 */
+	public static void writeFile(String fileName, String content) {
+		try {
+			String fileNameTemp = fileName;
+			File filePath = new File(fileNameTemp);
+			if (!filePath.exists()) {
+				filePath.createNewFile();
+			}
+			FileWriter fw = new FileWriter(filePath);
+			PrintWriter pw = new PrintWriter(fw);
+			String strContent = content;
+			pw.println(strContent);
+			pw.flush();
+			pw.close();
+			fw.close();
+		} catch (Exception e) {
+			log.error("新建文件操作出错: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+     * 删除文件
+     * @param fileName 包含路径的文件名
+     */
+	public static void delFile(String fileName) {
+		try {
+			String filePath = fileName;
+			java.io.File delFile = new java.io.File(filePath);
+			delFile.delete();
+		} catch (Exception e) {
+			log.error("删除文件操作出错: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+    /**
+     * 删除文件夹
+     * @param folderPath  文件夹路径
+     */
+	public static void delFolder(String folderPath) {
+		try {
+			// 删除文件夹里面所有内容
+			delAllFile(folderPath);
+			String filePath = folderPath;
+			java.io.File myFilePath = new java.io.File(filePath);
+			// 删除空文件夹
+			myFilePath.delete();
+		} catch (Exception e) {
+			log.error("删除文件夹操作出错" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+    
+    /**
+     * 删除文件夹里面的所有文件
+     * @param path 文件夹路径
+     */
+	public static void delAllFile(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			return;
+		}
+		if (!file.isDirectory()) {
+			return;
+		}
+		String[] childFiles = file.list();
+		File temp = null;
+		for (int i = 0; i < childFiles.length; i++) {
+			// File.separator与系统有关的默认名称分隔符
+			// 在UNIX系统上，此字段的值为'/'；在Microsoft Windows系统上，它为 '\'。
+			if (path.endsWith(File.separator)) {
+				temp = new File(path + childFiles[i]);
+			} else {
+				temp = new File(path + File.separator + childFiles[i]);
+			}
+			if (temp.isFile()) {
+				temp.delete();
+			}
+			if (temp.isDirectory()) {
+				delAllFile(path + "/" + childFiles[i]);// 先删除文件夹里面的文件
+				delFolder(path + "/" + childFiles[i]);// 再删除空文件夹
+			}
+		}
+	}
 
 	/**
 	 * 获取文件扩展名
-	 * 
 	 * @param filename
 	 * @return
 	 */
@@ -90,8 +192,127 @@ public class FileUtils {
 		}
 		return name;
 	}
+	
+	/**
+     * 复制单个文件
+     * @param srcFile 包含路径的源文件 如：E:/phsftp/src/abc.txt
+     * @param dirDest 目标文件目录；若文件目录不存在则自动创建  如：E:/phsftp/dest
+     * @throws IOException
+     */
+	public static void copyFile(String srcFile, String dirDest) {
+		try {
+			FileInputStream in = new FileInputStream(srcFile);
+			mkdirs(dirDest);
+			FileOutputStream out = new FileOutputStream(dirDest + "/" + new File(srcFile).getName());
+			int len;
+			byte buffer[] = new byte[1024];
+			while ((len = in.read(buffer)) != -1) {
+				out.write(buffer, 0, len);
+			}
+			out.flush();
+			out.close();
+			in.close();
+		} catch (Exception e) {
+			log.error("复制文件操作出错:" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+    /**
+     * 复制单个文件
+     * @param srcFile 包含路径的源文件 如：E:/phsftp/src/abc.txt
+     * @param dirDest 目标文件目录；若文件目录不存在则自动创建  如：E:/phsftp/dest
+     * @param newFileName 新文件名
+     * @throws IOException
+     */
+	public static void copyFile(String srcFile, String dirDest, String newFileName) {
+		try {
+			FileInputStream in = new FileInputStream(srcFile);
+			mkdirs(dirDest);
+			FileOutputStream out = new FileOutputStream(dirDest + "/" + newFileName);
+			int len;
+			byte buffer[] = new byte[1024];
+			while ((len = in.read(buffer)) != -1) {
+				out.write(buffer, 0, len);
+			}
+			out.flush();
+			out.close();
+			in.close();
+		} catch (Exception e) {
+			log.error("复制文件操作出错:" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+     * 复制文件夹
+     * @param oldPath 源文件夹路径 如：E:/phsftp/src
+     * @param newPath 目标文件夹路径 如：E:/phsftp/dest
+     */
+	public static void copyFolder(String oldPath, String newPath) {
+		try {
+			// 如果文件夹不存在 则新建文件夹
+			mkdirs(newPath);
+			File file = new File(oldPath);
+			String[] files = file.list();
+			File temp = null;
+			for (int i = 0; i < files.length; i++) {
+				if (oldPath.endsWith(File.separator)) {
+					temp = new File(oldPath + files[i]);
+				} else {
+					temp = new File(oldPath + File.separator + files[i]);
+				}
 
-	public static boolean copy(URL url, String path) {
+				if (temp.isFile()) {
+					FileInputStream input = new FileInputStream(temp);
+					FileOutputStream output = new FileOutputStream(newPath + "/" + (temp.getName()).toString());
+					byte[] buffer = new byte[1024 * 2];
+					int len;
+					while ((len = input.read(buffer)) != -1) {
+						output.write(buffer, 0, len);
+					}
+					output.flush();
+					output.close();
+					input.close();
+				}
+				if (temp.isDirectory()) {// 如果是子文件夹
+					copyFolder(oldPath + "/" + files[i], newPath + "/" + files[i]);
+				}
+			}
+		} catch (Exception e) {
+			log.error("复制文件夹操作出错:" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 将文件从一个文件夹复制到另外一个文件夹
+	 * @param oldpath
+	 * @param newpath
+	 */
+	public static void copyFolderNio(String oldpathall, String newpath) throws IOException {
+		String newpathall = newpath + File.separator + new File(oldpathall).getName();
+		FileChannel inputChannel = null;
+		FileChannel outputChannel = null;
+		try {
+			inputChannel = new FileInputStream(oldpathall).getChannel();
+			outputChannel = new FileOutputStream(newpathall).getChannel();
+			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+		} finally {
+			inputChannel.close();
+			outputChannel.close();
+		}
+	}
+
+	/**
+	 * 复制网络服务器文件到本地
+	 * @createTime 2018年2月6日,下午6:27:04
+	 * @createAuthor fangxilin
+	 * @param url
+	 * @param path
+	 * @return
+	 */
+	public static boolean copyNet(URL url, String path) {
 		boolean result = false;
 		HttpURLConnection conn = null;
 		InputStream is = null;
@@ -100,7 +321,7 @@ public class FileUtils {
 			conn.connect();
 			if (conn.getResponseCode() != 404) {
 				is = conn.getInputStream();
-				mkNotExistsParentDirs(path);
+				mkParentDirs(path);
 				IOUtils.copy(is, new FileOutputStream(path, false));
 				result = true;
 				return result;
@@ -122,12 +343,95 @@ public class FileUtils {
 		}
 		return result;
 	}
+	
+	/**
+     * 移动文件到指定目录
+     * @param oldPath 包含路径的文件名 如：E:/phsftp/src/ljq.txt
+     * @param newPath 目标文件目录 如：E:/phsftp/dest
+     */
+	public static void moveFile(String oldPath, String newPath) {
+		copyFile(oldPath, newPath);
+		delFile(oldPath);
+	}
+    
+    /**
+     * 移动文件夹到指定目录，不会删除文件夹
+     * @param oldPath 源文件目录  如：E:/phsftp/src
+     * @param newPath 目标文件目录 如：E:/phsftp/dest
+     */
+	public static void moveFiles(String oldPath, String newPath) {
+		copyFolder(oldPath, newPath);
+		delAllFile(oldPath);
+	}
+    
+    /**
+     * 移动文件夹到指定目录，会删除文件夹
+     * @param oldPath 源文件目录  如：E:/phsftp/src
+     * @param newPath 目标文件目录 如：E:/phsftp/dest
+     */
+	public static void moveFolder(String oldPath, String newPath) {
+		copyFolder(oldPath, newPath);
+		delFolder(oldPath);
+	}
+    
+	/**
+     * 压缩文件
+     * @param srcDir 压缩前存放的目录
+     * @param destDir 压缩后存放的目录
+     * @throws Exception
+     */
+	public static void yaSuoZip(String srcDir, String destDir) throws Exception {
+		String tempFileName = null;
+		byte[] buf = new byte[1024 * 2];
+		int len;
+		// 获取要压缩的文件
+		File[] files = new File(srcDir).listFiles();
+		if (files != null) {
+			for (File file : files) {
+				if (file.isFile()) {
+					FileInputStream fis = new FileInputStream(file);
+					BufferedInputStream bis = new BufferedInputStream(fis);
+					if (destDir.endsWith(File.separator)) {
+						tempFileName = destDir + file.getName() + ".zip";
+					} else {
+						tempFileName = destDir + "/" + file.getName() + ".zip";
+					}
+					FileOutputStream fos = new FileOutputStream(tempFileName);
+					BufferedOutputStream bos = new BufferedOutputStream(fos);
+					ZipOutputStream zos = new ZipOutputStream(bos);// 压缩包
+
+					ZipEntry ze = new ZipEntry(file.getName());// 压缩包文件名
+					zos.putNextEntry(ze);// 写入新的ZIP文件条目并将流定位到条目数据的开始处
+
+					while ((len = bis.read(buf)) != -1) {
+						zos.write(buf, 0, len);
+						zos.flush();
+					}
+					bis.close();
+					zos.close();
+
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    
+    
+	
 	/**
 	 * 按照文件最后修改日期倒序获取文件夹中所有文件
 	 * @param path
 	 * @return
 	 */
-	
 	public static File [] getFiles(String path){
 		File file = new File(path);   
         // get the folder list   
@@ -146,42 +450,12 @@ public class FileUtils {
         	});
 		return array;
 	}
-	/**
-	 * 
-	 * 保留文件夹中的30个文件
-	 */
-	public static void deleteFiles(String path){
-		File[] array = FileUtils.getFiles(path);
-		if(array.length>30){
-			for(int i=30;i<array.length;i++){
-				array[i].delete();
-			}
-		}
-		
-	}
-	/**
-	 * 将文件从一个文件夹复制到另外一个文件夹
-	 * @param oldpath
-	 * @param newpath
-	 */
-	public static void fileCp(String oldpathall, String newpath) throws IOException {
-		String newpathall = newpath + File.separator + new File(oldpathall).getName();
-		FileChannel inputChannel = null;
-		FileChannel outputChannel = null;
-		try {
-			inputChannel = new FileInputStream(oldpathall).getChannel();
-			outputChannel = new FileOutputStream(newpathall).getChannel();
-			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-		} finally {
-			inputChannel.close();
-			outputChannel.close();
-		}
-	}
+
 	
 	/**
 	 * 将多个文件合并成一个文件
-	 * 第一个参数是合并后生成文件的路径
-	 * 第二个参数是你需要合并的文本文件列表
+	 * @param outFile 合并后生成文件的路径
+	 * @param files 你需要合并的文本文件列表
 	 */
 	public static final int BUFSIZE = 1024 * 5;
 	public static void mergeFiles(String outFile, String[] files) {
@@ -262,5 +536,38 @@ public class FileUtils {
 		outStream.close();
 		in.close();
 		return new String(data,"UTF-8");
+	}
+	
+	/**
+	 * 获取MP3文件时长
+	 * @param file mp3文件路径
+	 * @param durationFormat 时长格式 1：分:秒  2：时:分:秒
+	 * @return
+	 */
+	public static String getDurationLength(File file, int durationFormat) {
+		try {
+			MP3File f = (MP3File)AudioFileIO.read(file);
+			
+			MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();
+			//mp3时长
+			int seconds = audioHeader.getTrackLength();
+			int temp=0;
+			StringBuffer sb=new StringBuffer();
+			if(durationFormat == 2) {
+				//时
+				temp = seconds/3600;
+				sb.append((temp<10)?"0"+temp+":":""+temp+":");
+			}
+			//分
+			temp=seconds%3600/60;
+			sb.append((temp<10)?"0"+temp+":":""+temp+":");
+			//秒
+			temp=seconds%3600%60;
+			sb.append((temp<10)?"0"+temp:""+temp);
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }

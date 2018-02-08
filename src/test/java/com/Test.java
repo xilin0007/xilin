@@ -12,7 +12,7 @@ public class Test {
 		//静态导入
 		//String version = VERSION;
 		
-		TestException.method1();
+		//TestException.method1();
 		
 	}
 }

@@ -1,9 +1,8 @@
 package com;
 
 import java.awt.Color;
-
-import com.fxl.frame.util.Const;
-import com.fxl.frame.util.TimeUtils;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -81,9 +80,15 @@ public class Test1 {
 		counter.incrementAndGet();
 		System.out.println(counter.get());*/
 		
-		System.out.println(TimeUtils.stringFormatToDate("2000-01-01 00:00:00", Const.YYYYMMDD_HHMMSS).getTime());
+		/*int index = 1;
+		Integer[] srcBytes = new Integer[] { 2, 4, 0, 0, 0, 0, 0, 10, 15, 50, null };
+		//byte[] destBytes = new byte[5];
+		System.arraycopy(srcBytes, 1, srcBytes, 2, 9);
+		for (int i = 0; i < srcBytes.length; i++) {
+			System.out.print("-> " + srcBytes[i]);
+		}*/
 		
-		
+		Map<String, Object> map = new HashMap<String, Object>();
 	}
 	
 }
