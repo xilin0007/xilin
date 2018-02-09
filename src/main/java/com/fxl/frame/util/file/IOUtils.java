@@ -27,10 +27,10 @@ public class IOUtils {
 	public static void main(String[] args) {
 		String filePath = "F:\\temp\\搜狗标准词库.txt";
 		//writeFile(filePath, "ccccccccc出差擦擦擦擦擦擦擦擦擦擦擦擦");
-		long s = System.currentTimeMillis();
+		/*long s = System.currentTimeMillis();
 		readFile(filePath);
 		long e = System.currentTimeMillis();
-		System.out.println("readFile耗时：" + (e - s));
+		System.out.println("readFile耗时：" + (e - s));*/
 		
 		/*long s1 = System.currentTimeMillis();
 		readFile1(filePath);
@@ -44,10 +44,10 @@ public class IOUtils {
 		long e = System.currentTimeMillis();
 		System.out.println("copyFile耗时：" + (e - s));*/
 		
-		/*long s1 = System.currentTimeMillis();
+		long s1 = System.currentTimeMillis();
 		copyFile1(oldFilePath, newFilePath);
 		long e1 = System.currentTimeMillis();
-		System.out.println("copyFile1耗时：" + (e1 - s1));*/
+		System.out.println("copyFile1耗时：" + (e1 - s1));
 	}
 	
 	/**
@@ -278,12 +278,14 @@ public class IOUtils {
 			
 			//代表一次最多读取1kb的内容
 			byte[] b = new byte[1024];
-			
 			//代表实际读取的字节数
 			int length = 0;
 			while ((length = bis.read(b)) != -1) {//将bis内置缓存字节数组内容循环赋给b数组
 				bos.write(b, 0, length);//此时，写入的是bos内置缓存字节数组
 			}
+			/*byte[] b = new byte[bis.available()];
+			bis.read(b);//一次性读取效率更低
+			bos.write(b);*/
 			
 			//缓冲区的内容一次性写入到文件
 			bos.flush();

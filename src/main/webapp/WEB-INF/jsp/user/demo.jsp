@@ -40,6 +40,7 @@
 	
 	<p>生成二维码</p>
 	<img src="${pageContext.request.contextPath}/userPage/generateQRCode" width="150px" height="150px">
+	<a href="${pageContext.request.contextPath}/userPage/downloadQRCode">下载</a>
 	</br>
 	
 	<p>日期插件</p>

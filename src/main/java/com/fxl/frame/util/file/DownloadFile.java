@@ -17,7 +17,7 @@ public class DownloadFile {
 		System.out.println("download start.......");
 		// 下载网络文件  
 		String filePath = FILE_DIR + fileName;
-        int bytesum = 0, byteread = 0;  
+        int byteread = 0;  
         InputStream inStream = null;
         FileOutputStream outStream = null;
         try {  
@@ -25,9 +25,8 @@ public class DownloadFile {
             URLConnection conn = url.openConnection();  
             inStream = conn.getInputStream();  
             outStream = new FileOutputStream(filePath);  
-            byte[] buffer = new byte[1204];  
+            byte[] buffer = new byte[1024];  
             while ((byteread = inStream.read(buffer)) != -1) {  
-                bytesum += byteread;
                 //System.out.println(bytesum);  
                 outStream.write(buffer, 0, byteread);  
             }

@@ -1,6 +1,5 @@
 package com.fxl.template.user.controller;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -11,7 +10,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -221,19 +219,57 @@ public class UserPageController extends BaseController {
 	 */
 	@RequestMapping("/generateQRCode")
 	public void generateQRCode(HttpServletResponse response) throws Exception {
-		//设置页面不缓存  
-        response.setHeader("Pragma", "no-cache");  
-        response.setHeader("Cache-Control", "no-cache");  
+		//Pragma，Cache-Control no-cache设置页面缓存 ，每次访问时，都不去访问缓存
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        //缓存过去时间
         response.setDateHeader("Expires", 0);
         //设置输出的内容的类型为JPEG图像  
         response.setContentType("image/png");
-        String filePath = GenerateQRCode.generate("https://www.baidu.com");
+        
+        /*String filePath = GenerateQRCode.generate("https://www.baidu.com");
         File file = new File(filePath);
         BufferedImage bufferedImage = ImageIO.read(file);
         //写给浏览器  
         ImageIO.write(bufferedImage, "png", response.getOutputStream());
         //最后删除临时文件
-        file.delete();
+        file.delete();*/
+        
+        GenerateQRCode.generate("https://www.baidu.com", response.getOutputStream());
+	}
+	
+	/**
+	 * 下载二维码
+	 * @createTime 2017-5-23,下午12:02:07
+	 * @createAuthor fangxilin
+	 * @param response
+	 * @param hospitalId
+	 * @throws Exception 
+	 */
+	@RequestMapping("/downloadQRCode")
+	public void downloadQRCode(HttpServletResponse response) throws Exception {
+		String fileName = "二维码.png";
+		String content = "https://www.baidu.com";
+        OutputStream outStream = null;
+        try {
+        	//response.reset();
+        	/**
+        	 * Content-Disposition：把请求所得的内容存为一个文件的时候提供一个默认的文件名
+        	 * attachment为以附件方式下载 
+        	 * 去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
+        	 */
+		    response.setHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("gb2312"), "iso-8859-1"));
+		    /**
+		     * application/octet-stream：二进制流数据（如常见的文件下载）
+		     */
+		    response.setContentType("application/octet-stream");
+		    outStream = new BufferedOutputStream(response.getOutputStream());
+		    GenerateQRCode.generate(content, outStream);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(outStream);
+		}
 	}
 	
 	/**

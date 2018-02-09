@@ -137,7 +137,8 @@ public class HttpClientUtil {
             response = httpClient.execute(httpPost);
             // 得到响应实例
             HttpEntity entity = response.getEntity();
-            
+	        //获取inputStream，可实现文件资源的下载功能
+            //InputStream inputStream = entity.getContent();
             
 
             // 可以获得响应头Response Header
