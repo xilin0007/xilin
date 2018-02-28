@@ -84,8 +84,8 @@ public class NIOUtils {
 	/**
 	 * 使用MappedByteBuffer读取文件
 	 * MappedByteBuffer：
-	 * 	是NIO引入的文件内存映射方案，读写性能极高，
-	 * 	MappedByteBuffer 将文件直接映射到虚拟内存
+	 * 	  是NIO引入的文件内存映射方案，读写性能极高，
+	 * 	 MappedByteBuffer 将文件直接映射到虚拟内存
 	 * 
 	 */
 	public static String readFile1(String filePath) {

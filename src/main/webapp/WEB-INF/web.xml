@@ -149,6 +149,30 @@
 		<filter-class>com.tacitknowledge.filters.cache.CacheHeaderFilter</filter-class>
 	</filter>
 	<!-- tk-filter end -->
+
+	<!-- 自定义的filter -->
+	<filter>
+		<description>过滤器名称</description>
+		<filter-name>FilterTest</filter-name>
+		<filter-class>com.fxl.filter.FilterTest</filter-class>
+		<!--配置FilterTest过滤器的初始化参数 -->
+		<init-param>
+			<description>配置过滤器的初始化参数1</description>
+			<param-name>name</param-name>
+			<param-value>fangxl</param-value>
+		</init-param>
+		<init-param>
+			<description>配置过滤器的初始化参数2</description>
+			<param-name>like</param-name>
+			<param-value>java</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>FilterTest</filter-name>
+		<!--“/*”表示拦截所有的请求 -->
+		<url-pattern>/user/*</url-pattern>
+		
+	</filter-mapping>
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

@@ -1,6 +1,7 @@
 /** 全局变量-----------------start */
-//var baseUrl = window.location.href;
-//basePath = basePath.substring(0, basePath.indexOf("template")) + "template";
+var pathname = window.location.pathname
+var projectName = pathname.substring(0, pathname.substr(1).indexOf("/") + 1);
+var url = window.location.origin + projectName;
 //var hospitalId = $.session.get('hospitalId');
 //var userId = $.session.get('userId');
 //var hospitalId = $.cookie('hospitalId');
@@ -28,27 +29,29 @@ var TOOL = {
 	 * @param testDate 当前日期 格式 2017-02-17
 	 * @param expectedDate 预产期 格式 2017-02-17
 	 */
-    getPregnantWeek : function(testDate, expectedDate) {
-    	var days = 280 - getTowDateMinusDay(expectedDate,testDate);
-    	var pweek = new Array(3);
-    	if(days >= 301){
-    		pweek[0] = 43;
-    		pweek[1] = 0;
-    		pweek[2] = 301;
-    	}else if(days < 0){
-    		pweek[0] = 0;
-    		pweek[1] = 0;
-    		pweek[2] = 0;
-    	}else{
-    		pweek[0] = parseInt(days/7);
-    		pweek[1] = days%7;
-    		pweek[2] = days;
-    	}
-    	return pweek;
-    },
+	getPregnantWeek : function(testDate, expectedDate) {
+		var days = 280 - getTowDateMinusDay(expectedDate, testDate);
+		var pweek = new Array(3);
+		if (days >= 301) {
+			pweek[0] = 43;
+			pweek[1] = 0;
+			pweek[2] = 301;
+		} else if (days < 0) {
+			pweek[0] = 0;
+			pweek[1] = 0;
+			pweek[2] = 0;
+		} else {
+			pweek[0] = parseInt(days / 7);
+			pweek[1] = days % 7;
+			pweek[2] = days;
+		}
+		return pweek;
+	},
     /**
 	 * 根据末次月经计算预产期
-	 * @param lastPeriod 末次月经 格式 2017-02-17
+	 * 
+	 * @param lastPeriod
+	 *            末次月经 格式 2017-02-17
 	 */
     getPregancyDay : function(lastPeriod) {
     	var expectedDate = getDateByDays(lastPeriod, 279);
@@ -255,38 +258,38 @@ function getStatusByBmi(bmi) {
 /**
  * 膳食调查配置方案相关输入分量正则
  */
-function checkNumber(obj){
-	if(obj.value.indexOf(".")==0){
-		if(isNaN(obj.value.substring(1))){
-			 layer.msg("请输入数字！");
-			 obj.value="";
-		 }else{
-			 obj.value=obj.value.replace(/^\.(\d).*$/,'0.$1');
-		 }
-	 }else{
-		 if(isNaN(obj.value)){
-			 layer.msg("请输入数字！");
-			 obj.value="";
-		 }else{
-			 obj.value=obj.value.replace(/^(\-)*(\d+)\.(\d).*$/,'$1$2.$3');
-		 }
-	 }
+function checkNumber(obj) {
+	if (obj.value.indexOf(".") == 0) {
+		if (isNaN(obj.value.substring(1))) {
+			layer.msg("请输入数字！");
+			obj.value = "";
+		} else {
+			obj.value = obj.value.replace(/^\.(\d).*$/, '0.$1');
+		}
+	} else {
+		if (isNaN(obj.value)) {
+			layer.msg("请输入数字！");
+			obj.value = "";
+		} else {
+			obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d).*$/, '$1$2.$3');
+		}
+	}
 }
 
-function checkNumbers(obj){
-	if(obj.value.indexOf(".")==0){
-		if(isNaN(obj.value.substring(1))){
-			 obj.value="";
-		 }else{
-			 obj.value=obj.value.replace(/^\.(\d).*$/,'0.$1');
-		 }
-	 }else{
-		 if(isNaN(obj.value)){
-			 obj.value="";
-		 }else{
-			 obj.value=obj.value.replace(/^(\-)*(\d+)\.(\d).*$/,'$1$2.$3');
-		 }
-	 }
+function checkNumbers(obj) {
+	if (obj.value.indexOf(".") == 0) {
+		if (isNaN(obj.value.substring(1))) {
+			obj.value = "";
+		} else {
+			obj.value = obj.value.replace(/^\.(\d).*$/, '0.$1');
+		}
+	} else {
+		if (isNaN(obj.value)) {
+			obj.value = "";
+		} else {
+			obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d).*$/, '$1$2.$3');
+		}
+	}
 }
 
 //身份证号合法性验证 
