@@ -2,6 +2,10 @@ package com.designmode.prototype;
 
 import java.io.IOException;
 
+/**
+ * 深复制和浅复制的区别：
+ * 	浅复制不会复制对象下的域，深复制是完全复制
+ */
 public class ProtoTest {
 
 	public static void main(String[] args) {
