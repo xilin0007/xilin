@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * servlet调用HttpServlet service()方法进行转发到具体的doGet，doPost方法
+ */
 public class ServletTest extends HttpServlet {
 
 	@Override
