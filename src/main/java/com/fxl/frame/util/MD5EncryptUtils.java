@@ -5,10 +5,9 @@ import java.util.Locale;
 
 public class MD5EncryptUtils {
 
-
 	/**
 	 * MD5加密密文返回
-	 * */
+	 */
 	public static String getMd5Value(String sSecret) {
 		String result = null;
 		try {
@@ -42,32 +41,32 @@ public class MD5EncryptUtils {
 		}
 		return hs.toString().toUpperCase(Locale.ENGLISH);
 	}
-	
+
 	/**
 	 * 密钥验证
 	 */
-	public static String  SmsPwdMd5(String plainText ) { 
-		try { 
-			MessageDigest md = MessageDigest.getInstance("MD5"); 
-			md.update(plainText.getBytes()); 
-			byte b[] = md.digest(); 
-	
-			int i; 
-	
-			StringBuffer buf = new StringBuffer(""); 
-			for (int offset = 0; offset < b.length; offset++) { 
-				i = b[offset]; 
-				if(i<0) i+= 256; 
-				if(i<16) 
-				buf.append("0"); 
-				buf.append(Integer.toHexString(i)); 
-			} 
+	public static String SmsPwdMd5(String plainText) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(plainText.getBytes());
+			byte b[] = md.digest();
+
+			int i;
+
+			StringBuffer buf = new StringBuffer("");
+			for (int offset = 0; offset < b.length; offset++) {
+				i = b[offset];
+				if (i < 0)
+					i += 256;
+				if (i < 16)
+					buf.append("0");
+				buf.append(Integer.toHexString(i));
+			}
 			return buf.toString();
-		}
-		catch (Exception e) { 
-			// TODO Auto-generated catch block 
-			e.printStackTrace(); 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return "";
-		} 
+		}
 	}
 }

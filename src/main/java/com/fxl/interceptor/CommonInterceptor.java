@@ -60,6 +60,17 @@ public class CommonInterceptor implements HandlerInterceptor {
 	}
 	
 	/**
+     * 调用目标方法之后, 但渲染视图之前. 
+     * 可以对请求域中的属性或视图做出修改. 
+     */
+	@Override
+	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
+			Object arg2, ModelAndView arg3) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
      * 渲染视图之后被调用. 释放资源
      */
 	@Override
@@ -73,16 +84,5 @@ public class CommonInterceptor implements HandlerInterceptor {
 	    	logger.info("header日志对象内容：" + content);
 	    	//可进行数据库日志的录入
 		}
-	}
-
-	/**
-     * 调用目标方法之后, 但渲染视图之前. 
-     * 可以对请求域中的属性或视图做出修改. 
-     */
-	@Override
-	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
-			Object arg2, ModelAndView arg3) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 }
