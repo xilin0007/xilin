@@ -1,5 +1,10 @@
 package com;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class Test {
 	public static void main(String[] args) {
 		/*String property = System.getProperty("java.io.tmpdir");
@@ -13,7 +18,21 @@ public class Test {
 		//String version = VERSION;
 		
 		//TestException.method1();
-		
+	    
+	    String urlString = "http://121.18.88.186:9181/reports/jy/xml/10765251.xml";
+	    
+        try {
+            URL url = new URL(urlString);
+            URLConnection conn = url.openConnection();  
+            InputStream inputStream = conn.getInputStream();
+            byte[] b = new byte[inputStream.available()];
+            inputStream.read(b);
+            String str = new String(b, "UTF-8");
+            System.out.println(str);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 }
 

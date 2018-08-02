@@ -2,6 +2,7 @@ package com.fxl.interceptor;
 
 import java.util.Enumeration;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -56,6 +57,16 @@ public class CommonInterceptor implements HandlerInterceptor {
 		String host = request.getHeader("Host");
 		//http://192.168.1.235:8080/template
 		String basePath = request.getHeader("origin") + request.getContextPath();
+		
+		//获取body参数
+		ServletInputStream bodyStream = request.getInputStream();
+        int size = request.getContentLength();
+        if (size > 1) {
+            byte[] bytes = new byte[size];
+            bodyStream.read(bytes, 0, size);
+            String body = new String(bytes, "UTF-8");
+            logger.info("body参数==>" + body);
+        }
 		return true;
 	}
 	

@@ -19,6 +19,8 @@ import org.dom4j.io.XMLWriter;
 import org.json.JSONObject;
 import org.json.XML;
 
+import net.sf.json.xml.XMLSerializer;
+
 /**
  * xml转map，map转xml 带属性 http://happyqing.iteye.com/blog/2316275
  * 
@@ -40,14 +42,34 @@ public class XmlUtil {
         System.out.println(json.toString(1)); // 格式化输出 */
         
         
+        /***********************xml转json****************************/
         /*XMLSerializer xmlSerializer = new XMLSerializer();    
         String xmlToString = xmlSerializer.read(textFromFile).toString();    
         com.alibaba.fastjson.JSONObject parseObject = com.alibaba.fastjson.JSONObject.parseObject(xmlToString);
         System.out.println(xmlToString);*/
         
-        org.json.JSONObject json = XML.toJSONObject(textFromFile);
-        org.json.JSONObject gh = (JSONObject) json.getJSONObject("ROOT").getJSONObject("DATAPARAM").getJSONObject("GHLIST").get("GH");
+        /*org.json.JSONObject json = XML.toJSONObject(textFromFile);
+        org.json.JSONObject gh = (JSONObject) json.getJSONObject("ROOT").getJSONObject("DATAPARAM").getJSONObject("GHLIST").get("GH");*/
         
+        XMLSerializer xmlSerializer = new XMLSerializer();
+        net.sf.json.JSONObject jsonRet = (net.sf.json.JSONObject) xmlSerializer.read(textFromFile);
+        System.out.println(jsonRet);
+        /***********************xml转json****************************/
+        
+        
+        String json = "{'STATE':'T','DATAPARAM':{'GHLIST':{'GH':{'DJH':'S0000168','HL':'普通','YYSJ':'2018-04-19 16:19:03','KDKS':'口腔一科门诊','DJLX':'1','ZXZT':'正在就诊','JE':'15','ZFZT':'1','SFJSK':'0','YZLIST':{'YZ':{'YZID':'86487352','YZLX':'检验','YZMC':[],'FMLIST':{'FM':{'MC':'检验费','JE':'128','ZFZT':'0','MXLIST':[{'MC':'血细胞分析','GG':[],'SL':'11','DW':'项'},{'MC':'血细胞分析（流式细胞仪法每增一项指标）','GG':[],'SL':'16','DW':'项'},{'MC':'红细胞比积测定(HCT)','GG':[],'SL':'1','DW':'项'}]}},'DJLIST':{'DJ':{'DJH':'S0000169','DJLX':'1','JE':'128','KDSJ':'2018-04-19 16:44:07','ZFZT':'0','YTJE':'0','SFJSK':'0'}}}}}}}}";
+        System.out.println(json2xml(json));
+    }
+    
+    /**
+     * json转xml
+     * @createTime 2018年7月27日,下午1:57:43
+     * @param xml
+     * @return
+     */
+    public static String json2xml(String json) {
+        JSONObject jsonObj = new JSONObject(json);
+        return "<xml>" + XML.toString(jsonObj) + "</xml>";
     }
 
     /**
