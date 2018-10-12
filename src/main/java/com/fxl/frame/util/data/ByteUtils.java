@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.data;
 
 /**
  * @Description Bytes数组处理工具

@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.constant;
 
 /**
  * 项目常量初始化赋值

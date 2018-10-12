@@ -7,7 +7,7 @@ import java.util.Properties;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.fxl.frame.util.Consts;
+import com.fxl.frame.util.constant.Consts;
 
 /**
  * 常量初始化赋值

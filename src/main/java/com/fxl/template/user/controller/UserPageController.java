@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
-import com.fxl.frame.util.Consts;
 import com.fxl.frame.util.GenerateQRCode;
 import com.fxl.frame.util.PinyinAPI;
 import com.fxl.frame.util.SessionUtils;
+import com.fxl.frame.util.constant.Consts;
 import com.fxl.frame.util.file.DownloadFile;
 import com.fxl.template.user.entity.PinyinChinese;
 import com.fxl.template.user.entity.UserInfo;
@@ -195,9 +195,10 @@ public class UserPageController extends BaseController {
 		    byte[] buffer = new byte[inStream.available()];
 		    inStream.read(buffer);
 		    response.reset();
-		    // 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
+		    //Content-Disposition激活文件下载对话框, 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
 		    response.addHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("gb2312"), "iso-8859-1"));
 		    outStream = new BufferedOutputStream(response.getOutputStream());
+		    //application/octet-stream二进制流，不知道下载文件类型时设置
 		    response.setContentType("application/octet-stream");
 		    outStream.write(buffer);// 输出文件
 		} catch (Exception e) {

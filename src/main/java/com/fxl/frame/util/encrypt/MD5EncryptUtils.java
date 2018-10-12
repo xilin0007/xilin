@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.encrypt;
 
 import java.security.MessageDigest;
 import java.util.Locale;

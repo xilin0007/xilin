@@ -18,7 +18,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.fxl.frame.base.BaseController;
 import com.fxl.frame.common.ReturnMsg;
-import com.fxl.frame.util.Consts;
+import com.fxl.frame.util.constant.Consts;
 import com.fxl.frame.util.file.FileUtils;
 import com.fxl.frame.util.file.UploadUtils;
 

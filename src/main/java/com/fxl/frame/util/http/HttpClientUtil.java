@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.http;
 
 import java.io.File;
 import java.io.IOException;

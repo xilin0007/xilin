@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.data;
 
 import java.io.IOException;
 import java.io.StringWriter;

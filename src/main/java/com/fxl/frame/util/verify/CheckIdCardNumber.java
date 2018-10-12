@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.verify;
 public class CheckIdCardNumber {
 
 	 private String idCardNum = null;

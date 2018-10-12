@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.http;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.data;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+
+import com.fxl.frame.util.constant.Const;
 
 
 /**

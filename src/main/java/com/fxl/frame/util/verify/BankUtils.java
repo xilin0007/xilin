@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.verify;
 
 import java.util.Arrays;
 import java.util.HashMap;

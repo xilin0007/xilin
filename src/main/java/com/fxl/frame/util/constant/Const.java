@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.constant;
 
 import java.util.Arrays;
 import java.util.Collections;

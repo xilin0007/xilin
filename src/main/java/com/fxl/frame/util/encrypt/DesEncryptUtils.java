@@ -1,4 +1,4 @@
-package com.fxl.frame.util;
+package com.fxl.frame.util.encrypt;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
