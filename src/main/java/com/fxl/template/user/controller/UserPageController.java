@@ -196,7 +196,8 @@ public class UserPageController extends BaseController {
 		    inStream.read(buffer);
 		    response.reset();
 		    //Content-Disposition激活文件下载对话框, 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
-		    response.addHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("gb2312"), "iso-8859-1"));
+			//response.setHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("gb2312"), "iso-8859-1"));
+		    response.addHeader("Content-Disposition", "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
 		    outStream = new BufferedOutputStream(response.getOutputStream());
 		    //application/octet-stream二进制流，不知道下载文件类型时设置
 		    response.setContentType("application/octet-stream");
@@ -259,7 +260,8 @@ public class UserPageController extends BaseController {
         	 * attachment为以附件方式下载 
         	 * 去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
         	 */
-		    response.setHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("gb2312"), "iso-8859-1"));
+		    //response.setHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("gb2312"), "iso-8859-1"));
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
 		    /**
 		     * application/octet-stream：二进制流数据（如常见的文件下载）
 		     */

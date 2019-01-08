@@ -1,2 +1,9 @@
 /target/
-/build/
+/lib/
+/.project
+/.settings
+/.classpath
+/*.iml
+/.idea
+/.settings
+

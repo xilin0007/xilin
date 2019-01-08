@@ -17,18 +17,18 @@ public class DownloadFile {
 		System.out.println("download start.......");
 		// 下载网络文件  
 		String filePath = FILE_DIR + fileName;
-        int byteread = 0;  
+        int byteread = 0;
         InputStream inStream = null;
         FileOutputStream outStream = null;
-        try {  
+        try {
         	URL url = new URL(urlString);
-            URLConnection conn = url.openConnection();  
-            inStream = conn.getInputStream();  
-            outStream = new FileOutputStream(filePath);  
-            byte[] buffer = new byte[1024];  
-            while ((byteread = inStream.read(buffer)) != -1) {  
-                //System.out.println(bytesum);  
-                outStream.write(buffer, 0, byteread);  
+            URLConnection conn = url.openConnection();
+            inStream = conn.getInputStream();
+            outStream = new FileOutputStream(filePath);
+            byte[] buffer = new byte[1024];
+            while ((byteread = inStream.read(buffer)) != -1) {
+                //System.out.println(bytesum);
+                outStream.write(buffer, 0, byteread);
             }
         } catch (FileNotFoundException e) {  
             e.printStackTrace();  

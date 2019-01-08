@@ -375,5 +375,28 @@ public class XmlUtil {
         xmlWriter.close();
         return writer.toString();
     }
+    
+    /**
+     * 将自闭合标签转换为完整标签</>转为<></>
+     * @createTime 2018年11月2日,下午2:05:31
+     * @createAuthor fangxilin
+     * @param xml
+     * @return
+     * @throws IOException
+     * @throws DocumentException
+     */
+    public static String transClosureTag(String xml) throws IOException, DocumentException {
+        OutputFormat format = new OutputFormat();
+        // format.setEncoding("UTF-8");
+        // 关闭自闭合标签
+        format.setExpandEmptyElements(true);
+        StringWriter strWtr = new StringWriter();
+        XMLWriter xmlWrt = new XMLWriter(strWtr, format);
+        // getRootElement(),防止输出<?xml version="1.0" encoding="UTF-8"?>
+        xmlWrt.write(DocumentHelper.parseText(xml).getRootElement());
+        xmlWrt.flush();
+        xmlWrt.close();
+        return strWtr.toString();
+    }
 
 }
