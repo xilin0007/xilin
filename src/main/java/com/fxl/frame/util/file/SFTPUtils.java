@@ -31,13 +31,17 @@ public class SFTPUtils {
     
     public static void main(String[] args) {
         try {
-            getConnect("10.107.179.1", 22, "bat", "huaxun");
+            String host = "192.168.10.72";
+            int port = 22;
+            String username = "root";
+            String password = "CgGRxNx1J5iIm86j7POUGUpkt";
+            getConnect(host, port, username, password);
             //upload("/home/cmsoftu/detail/", "E:\\recordfilecopy\\record1.txt", ftp);
-            download("/exam/455834765/20180423/", "455834765_2220785.pdf", "E:\\temp\\455834765_2220785.pdf");
+            //download("/exam/455834765/20180423/", "455834765_2220785.pdf", "E:\\temp\\455834765_2220785.pdf");
+            System.out.println("连接成功！");
         } catch (Exception e) {
             e.printStackTrace();
         }
- 
     }
  
     /**
@@ -107,7 +111,6 @@ public class SFTPUtils {
             if (sftp.isConnected()) {
                 disConn();
             }
- 
         }
     }
     
@@ -133,5 +136,4 @@ public class SFTPUtils {
  
         }
     }
- 
 }
