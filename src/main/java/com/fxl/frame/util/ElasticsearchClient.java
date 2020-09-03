@@ -19,6 +19,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.ShardSearchFailure;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.text.Text;
@@ -27,6 +28,10 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.script.ScriptType;
+import org.elasticsearch.script.mustache.MultiSearchTemplateRequest;
+import org.elasticsearch.script.mustache.SearchTemplateRequest;
+import org.elasticsearch.script.mustache.SearchTemplateResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -262,6 +267,41 @@ public class ElasticsearchClient {
             Text[] fragments = highlight.fragments();
             String fragmentString = fragments[0].string();
         }
+
+
+
+
+    }
+
+    /**
+     * 搜索模板请求
+     */
+    public static void queryByTemplate() throws IOException {
+        //搜索模板请求
+        SearchTemplateRequest request = new SearchTemplateRequest();
+        request.setRequest(new SearchRequest("posts"));
+        request.setScriptType(ScriptType.INLINE);
+        request.setScript(
+                "{" +
+                        "  \"query\": { \"match\" : { \"{{field}}\" : \"{{value}}\" } }," +
+                        "  \"size\" : \"{{size}}\"" +
+                        "}");
+
+        Map<String, Object> scriptParams = new HashMap<>();
+        scriptParams.put("field", "title");
+        scriptParams.put("value", "elasticsearch");
+        scriptParams.put("size", 5);
+        request.setScriptParams(scriptParams);
+
+        //同步执行
+        SearchTemplateResponse response = client.searchTemplate(request, RequestOptions.DEFAULT);
+        //异步执行
+        //client.searchTemplateAsync(request, RequestOptions.DEFAULT, listener);
+
+
+        //多搜索模板请求
+//        MultiSearchTemplateRequest multiRequest = new MultiSearchTemplateRequest();
+
 
     }
 }
