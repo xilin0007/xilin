@@ -17,12 +17,14 @@ public class LockTest {
 	public static void main(String[] args) {
 		PrintQueue printQueue = new PrintQueue();
 		//创建10个打印类
-		Thread[] thread = new Thread[10];
-		for (int i = 0; i < 10; i++) {
+		int num = 5;
+		Thread[] thread = new Thread[num];
+		for (int i = 0; i < num; i++) {
 			thread[i] = new Thread(new Job(printQueue), "Thread " + i);
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < num; i++) {
 			thread[i].start();
+			System.out.println(thread[i].getName() + ":" + thread[i].isAlive());
 		}
 	}
 }
@@ -36,14 +38,16 @@ class PrintQueue {
 	//private final Lock queueLock = new ReentrantLock(true);
 	
 	public void printJob(Object document) {
-		//加锁
-		queueLock.lock();
-		//queueLock.tryLock();
+		//加锁并获取锁，当获取不到锁的时候，会一直等待。直到获取到锁。
+		//queueLock.lock();
+		//获取锁的时候，制作一次试探，如果获取锁失败，就不会一直等待的
+		queueLock.tryLock();
 		try {
 			Long duration = (long) (Math.random() * 1000);
 			System.out.println(Thread.currentThread().getName() + 
 					": PrintQueue: Printing a Job during " + duration + " millisecond");
-			Thread.sleep(duration);
+			//Thread.sleep(duration);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
