@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -79,7 +80,7 @@ public class UserPageController extends BaseController {
 			return new ReturnMsg(ReturnMsg.SUCCESS, "搜索成功", data);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ReturnMsg(ReturnMsg.FAIL, "搜索异常", new ArrayList<>());
+			return new ReturnMsg(ReturnMsg.FAIL, "搜索异常", Collections.emptyList());
 		}
 	}
 	
