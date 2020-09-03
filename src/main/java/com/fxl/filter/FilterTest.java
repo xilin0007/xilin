@@ -43,6 +43,14 @@ public class FilterTest implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		System.out.println("FilterTest执行前！！！");
+		//设置允许跨域请求接口，其他域名也可请求到这个服务接口
+		/*String origin = request.getHeader("Origin");
+		//response.setHeader("Access-Control-Allow-Origin", origin);
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		response.setHeader("Access-Control-Max-Age", "3600");
+		response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization");
+		response.setHeader("Access-Control-Allow-Credentials", "true");*/
 		chain.doFilter(request, response); // 让目标资源执行，放行
 		System.out.println("FilterTest执行后！！！");
 	}
