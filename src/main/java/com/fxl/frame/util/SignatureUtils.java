@@ -3,13 +3,12 @@ package com.fxl.frame.util;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
+
 /**
  * 获取短信签名工具类
+ * 验签时，将参数重新加密，对比客户端传过来的签名，看是否相同
  * @Description TODO
  * @author fangxilin
  * @date 2017-5-31
@@ -71,7 +70,7 @@ public class SignatureUtils {
 	    // 遍历排序后的字典，将所有参数按"key=value"格式拼接在一起
 	    StringBuilder basestring = new StringBuilder();
 	    for (Entry<String, String> param : entrys) {
-	        basestring.append(param.getKey()).append("=").append(param.getValue());
+	        basestring.append(param.getKey()).append("=").append(String.valueOf(param.getValue()));
 	    }
 	    //获取密钥
 	    //String SMS_SESSION_SECRET = SMS_SESSION_SECRET;
@@ -96,5 +95,9 @@ public class SignatureUtils {
 	        sign.append(hex);
 	    }
 	    return sign.toString();
+	}
+
+	private static String getUUID() {
+		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 }
